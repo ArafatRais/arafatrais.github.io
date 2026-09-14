@@ -1,0 +1,801 @@
+<title>Palette and Type Specimens</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;600;800&family=Bitter:wght@400;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Chakra+Petch:wght@400;600;700&family=Familjen+Grotesk:wght@400;700&family=Fira+Mono:wght@400;700&family=Fira+Sans:wght@400;500;700&family=Geist:wght@400;600;800&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;600;700&family=Instrument+Sans:wght@400;600;700&family=JetBrains+Mono:wght@400;700&family=Martian+Mono:wght@400;700&family=Public+Sans:wght@400;600;700&family=Roboto+Slab:wght@400;600;700&family=Saira:wght@400;600;800&family=Sora:wght@400;700&family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&family=Unbounded:wght@400;700&family=Work+Sans:wght@400;600;700&family=Zilla+Slab:wght@400;600;700&display=swap">
+
+<style>
+/* ---------- page chrome tokens ---------- */
+:root{
+  --pg-bg:#F7F7F6;
+  --pg-surface:#FFFFFF;
+  --pg-sunken:#EDEDEB;
+  --pg-line:#E0E0DD;
+  --pg-line-strong:#C9C9C5;
+  --pg-text:#15171A;
+  --pg-muted:#63676C;
+  --pg-faint:#8E9296;
+  --ok:#2F7D57;
+  --mid:#9A6B12;
+  --high:#B03A2B;
+  --sans:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --maxw:1180px;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --pg-bg:#0E1012;
+    --pg-surface:#16191C;
+    --pg-sunken:#121417;
+    --pg-line:#252A2E;
+    --pg-line-strong:#394046;
+    --pg-text:#E8EBEE;
+    --pg-muted:#8B929A;
+    --pg-faint:#6A7178;
+    --ok:#5FBF8C;
+    --mid:#D7A63F;
+    --high:#E4776A;
+  }
+}
+:root[data-theme="dark"]{
+  --pg-bg:#0E1012;
+  --pg-surface:#16191C;
+  --pg-sunken:#121417;
+  --pg-line:#252A2E;
+  --pg-line-strong:#394046;
+  --pg-text:#E8EBEE;
+  --pg-muted:#8B929A;
+  --pg-faint:#6A7178;
+  --ok:#5FBF8C;
+  --mid:#D7A63F;
+  --high:#E4776A;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--pg-bg);
+  color:var(--pg-text);
+  font-family:var(--sans);
+  font-size:15px;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:var(--maxw);margin:0 auto;padding-inline:20px}
+
+/* ---------- typography ---------- */
+h1,h2,h3{margin:0;text-wrap:balance;font-weight:800;letter-spacing:-0.02em;line-height:1.1}
+h1{font-size:clamp(30px,5.5vw,50px)}
+h2{font-size:clamp(21px,3vw,28px);letter-spacing:-0.015em}
+h3{font-size:16px;font-weight:700;letter-spacing:-0.005em}
+p{margin:0}
+a{color:inherit}
+.lede{color:var(--pg-muted);max-width:62ch;font-size:16px}
+.eyebrow{
+  font-family:var(--mono);font-size:11px;font-weight:700;
+  letter-spacing:0.16em;text-transform:uppercase;color:var(--pg-faint);
+}
+.note{font-size:13.5px;color:var(--pg-muted);max-width:64ch}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+
+/* ---------- header ---------- */
+header{border-bottom:1px solid var(--pg-line);background:var(--pg-surface)}
+.head-inner{display:flex;flex-direction:column;gap:14px;padding-block:38px 34px}
+.head-meta{display:flex;flex-wrap:wrap;gap:8px 22px;font-family:var(--mono);font-size:11.5px;color:var(--pg-faint);letter-spacing:0.04em}
+
+/* ---------- sections ---------- */
+section{padding-block:44px;border-bottom:1px solid var(--pg-line)}
+.sec-head{display:flex;flex-direction:column;gap:10px;margin-bottom:26px}
+
+/* ---------- mixer ---------- */
+.mixer-grid{display:grid;grid-template-columns:250px 1fr;gap:26px;align-items:start}
+@media (max-width:860px){.mixer-grid{grid-template-columns:1fr}}
+
+.controls{display:flex;flex-direction:column;gap:20px;position:sticky;top:16px}
+@media (max-width:860px){.controls{position:static}}
+.ctl-group{display:flex;flex-direction:column;gap:9px}
+.ctl-label{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--pg-faint)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{
+  font:inherit;font-size:12.5px;
+  padding:5px 10px;
+  border:1px solid var(--pg-line-strong);
+  background:var(--pg-surface);
+  color:var(--pg-muted);
+  cursor:pointer;
+  border-radius:2px;
+  transition:background .12s,color .12s,border-color .12s;
+}
+.chip:hover{color:var(--pg-text);border-color:var(--pg-text)}
+.chip[aria-pressed="true"]{background:var(--pg-text);color:var(--pg-bg);border-color:var(--pg-text)}
+.chip:focus-visible{outline:2px solid var(--pg-text);outline-offset:2px}
+.chip .sw{display:inline-block;width:8px;height:8px;margin-right:6px;vertical-align:1px;border-radius:1px}
+
+/* ---------- live preview ---------- */
+.preview{
+  border:1px solid var(--pg-line-strong);
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--f-body);
+  overflow:hidden;
+}
+.pv-brand,.pv-h1,.pv-card-t{font-family:var(--f-display)}
+.pv-num-big,.pv-num-small,.pv-out-v,.pv-input,.pv-flabel,.pv-out-l{font-family:var(--f-mono)}
+.pv-nav{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:13px 18px;border-bottom:1px solid var(--line);
+}
+.pv-brand{font-weight:700;letter-spacing:-0.01em;font-size:14.5px}
+.pv-links{display:flex;gap:16px;font-size:12.5px;color:var(--muted)}
+.pv-links span:first-child{color:var(--accent)}
+.pv-body{padding:24px 18px 26px;display:flex;flex-direction:column;gap:20px}
+.pv-hero{display:flex;flex-direction:column;gap:7px}
+.pv-h1{font-size:clamp(22px,3.4vw,32px);font-weight:700;letter-spacing:-0.025em;line-height:1.1}
+.pv-sub{font-size:13.5px;color:var(--muted);max-width:46ch}
+
+.pv-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:12px}
+@media (max-width:700px){.pv-grid{grid-template-columns:1fr}}
+.pv-card{
+  border:1px solid var(--line);background:var(--surface);
+  padding:13px;display:flex;flex-direction:column;gap:9px;min-height:132px;
+}
+.pv-card-t{font-size:12.5px;font-weight:600;letter-spacing:-0.005em}
+.pv-card-d{font-size:11px;color:var(--muted);line-height:1.4}
+.pv-viz{flex:1;display:flex;align-items:flex-end;min-height:52px}
+.pv-viz svg{width:100%;height:52px;display:block}
+.pv-nums{
+  flex:1;display:flex;flex-direction:column;justify-content:center;gap:2px;
+  font-variant-numeric:tabular-nums;
+}
+.pv-num-big{font-size:22px;font-weight:700;color:var(--accent);letter-spacing:-0.02em}
+.pv-num-small{font-size:10.5px;color:var(--muted)}
+
+.pv-tool{border:1px solid var(--line);background:var(--surface);padding:15px;display:grid;grid-template-columns:1fr auto;gap:16px;align-items:end}
+@media (max-width:520px){.pv-tool{grid-template-columns:1fr}}
+.pv-field{display:flex;flex-direction:column;gap:5px}
+.pv-flabel{font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted)}
+.pv-input{
+  border:1px solid var(--line);background:var(--bg);color:var(--text);
+  padding:7px 9px;font-family:inherit;font-size:13px;font-variant-numeric:tabular-nums;
+}
+.pv-out{text-align:right}
+.pv-out-v{font-size:26px;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums;letter-spacing:-0.02em;line-height:1}
+.pv-out-l{font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-top:5px}
+.pv-btn{
+  background:var(--accent);color:var(--bg);border:0;
+  padding:8px 14px;font-family:inherit;font-size:12.5px;font-weight:600;cursor:default;
+}
+
+/* ---------- semantic roles ---------- */
+.roles{margin-top:26px;border-top:1px solid var(--pg-line);padding-top:22px}
+.role-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:2px;margin-top:14px;background:var(--pg-line);border:1px solid var(--pg-line)}
+.role{background:var(--pg-surface);padding:13px 14px;display:flex;flex-direction:column;gap:7px}
+.role-sw{height:26px;border:1px solid var(--pg-line)}
+.role-n{font-size:13px;font-weight:700}
+.role-d{font-size:12px;color:var(--pg-muted);line-height:1.45}
+.role-hex{font-family:var(--mono);font-size:10px;color:var(--pg-faint);letter-spacing:0.04em}
+
+/* ---------- palette cards ---------- */
+.pal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+.pal{
+  border:1px solid var(--pg-line);background:var(--pg-surface);
+  display:flex;flex-direction:column;
+}
+.pal-top{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:14px 15px 11px}
+.pal-name{font-size:15px;font-weight:700;letter-spacing:-0.01em}
+.pal-ref{font-family:var(--mono);font-size:10px;color:var(--pg-faint);text-align:right;letter-spacing:0.03em;line-height:1.5;flex-shrink:0}
+.bars{display:flex;height:56px}
+.bars div{flex:1}
+.bars div.wide{flex:1.9}
+.pal-hex{
+  display:flex;flex-wrap:wrap;gap:3px 12px;padding:11px 15px;
+  font-family:var(--mono);font-size:10.5px;color:var(--pg-faint);
+  border-bottom:1px solid var(--pg-line);
+}
+.pal-hex b{color:var(--pg-muted);font-weight:400}
+.pal-note{padding:13px 15px 15px;display:flex;flex-direction:column;gap:11px;flex:1}
+.pal-note p{font-size:13px;color:var(--pg-muted);line-height:1.5}
+.risk{
+  display:inline-flex;align-items:center;gap:7px;align-self:flex-start;margin-top:auto;
+  font-family:var(--mono);font-size:10px;letter-spacing:0.13em;text-transform:uppercase;
+}
+.risk i{width:22px;height:3px;display:block;border-radius:2px}
+.risk.low{color:var(--ok)} .risk.low i{background:var(--ok)}
+.risk.med{color:var(--mid)} .risk.med i{background:var(--mid)}
+.risk.high{color:var(--high)} .risk.high i{background:var(--high)}
+
+/* ---------- type specimens ---------- */
+.type-group{margin-bottom:34px}
+.type-group:last-child{margin-bottom:0}
+.group-label{
+  font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:0.15em;
+  text-transform:uppercase;color:var(--pg-faint);
+  padding-bottom:9px;border-bottom:1px solid var(--pg-line-strong);margin-bottom:2px;
+}
+.spec{
+  display:grid;grid-template-columns:168px 1fr;gap:22px;
+  padding:20px 0;border-bottom:1px solid var(--pg-line);
+}
+@media (max-width:700px){.spec{grid-template-columns:1fr;gap:12px}}
+.spec-meta{display:flex;flex-direction:column;gap:7px}
+.spec-name{font-size:14.5px;font-weight:700;letter-spacing:-0.01em}
+.spec-note{font-size:12.5px;color:var(--pg-muted);line-height:1.45}
+.spec-show{display:flex;flex-direction:column;gap:9px;min-width:0}
+.spec-line{font-size:clamp(24px,4vw,36px);font-weight:700;letter-spacing:-0.025em;line-height:1.08}
+.spec-digits{font-size:19px;font-variant-numeric:tabular-nums;color:var(--pg-muted);letter-spacing:0.01em}
+.spec-body{font-size:13.5px;color:var(--pg-muted);max-width:60ch;line-height:1.55}
+
+/* ---------- verdict ---------- */
+.picks{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin-top:6px}
+.pick{border:1px solid var(--pg-line);border-top:2px solid var(--pg-text);background:var(--pg-surface);padding:15px;display:flex;flex-direction:column;gap:8px}
+.pick h3{font-size:14.5px}
+.pick p{font-size:13px;color:var(--pg-muted);line-height:1.5}
+.pick .tag{font-family:var(--mono);font-size:10px;letter-spacing:0.13em;text-transform:uppercase;color:var(--pg-faint)}
+
+footer{padding-block:30px 44px}
+.foot{font-family:var(--mono);font-size:11.5px;color:var(--pg-faint);letter-spacing:0.03em}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<header>
+  <div class="wrap head-inner">
+    <span class="eyebrow">Design direction</span>
+    <h1>Palette and type specimens</h1>
+    <p class="lede">Twenty-two palettes and sixteen faces for a site that hosts small interactive tools. Every option is rendered live on a rough mock of the gallery, so you are choosing what you will actually see rather than reading hex codes. The mock is a stand-in at real proportions, not a layout proposal.</p>
+    <div class="head-meta">
+      <span>Reference: Watch Dogs Legion / Cold War / TVA</span>
+      <span>Through-line: retrofuturist institutional</span>
+      <span>All faces free on Google Fonts</span>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Try combinations</span>
+      <h2>Live mixer</h2>
+      <p class="note">Pick a palette and a face. The panel below is a mock of your project gallery and one working tool, drawn at real proportions. Numbers use tabular figures, which is why digits stay in their columns as they change.</p>
+    </div>
+
+    <div class="mixer-grid">
+      <div class="controls">
+        <div class="ctl-group">
+          <span class="ctl-label" id="lbl-pal">Palette</span>
+          <div class="chips" id="pal-chips" role="group" aria-labelledby="lbl-pal"></div>
+        </div>
+        <div class="ctl-group">
+          <span class="ctl-label" id="lbl-pair">Pairings</span>
+          <div class="chips" id="pair-chips" role="group" aria-labelledby="lbl-pair"></div>
+        </div>
+        <div class="ctl-group">
+          <span class="ctl-label" id="lbl-display">Display</span>
+          <div class="chips" id="display-chips" role="group" aria-labelledby="lbl-display"></div>
+        </div>
+        <div class="ctl-group">
+          <span class="ctl-label" id="lbl-body">Body</span>
+          <div class="chips" id="body-chips" role="group" aria-labelledby="lbl-body"></div>
+        </div>
+        <div class="ctl-group">
+          <span class="ctl-label" id="lbl-mono">Numbers</span>
+          <div class="chips" id="mono-chips" role="group" aria-labelledby="lbl-mono"></div>
+        </div>
+        <div class="ctl-group">
+          <span class="ctl-label" id="lbl-mode">Mode</span>
+          <div class="chips" id="mode-chips" role="group" aria-labelledby="lbl-mode">
+            <button class="chip" type="button" data-mode="dark" aria-pressed="true">Dark</button>
+            <button class="chip" type="button" data-mode="light" aria-pressed="false">Light</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="preview" id="preview">
+        <div class="pv-nav">
+          <span class="pv-brand">Arafat Rais</span>
+          <span class="pv-links"><span>Projects</span><span>Notes</span><span>About</span></span>
+        </div>
+        <div class="pv-body">
+          <div class="pv-hero">
+            <span class="pv-h1">Small tools, built to be used.</span>
+            <span class="pv-sub">Calculators, converters and visualisations. Each one works on its own and has its own link.</span>
+          </div>
+
+          <div class="pv-grid">
+            <div class="pv-card">
+              <span class="pv-card-t">Compound interest</span>
+              <span class="pv-card-d">Monthly contributions against a fixed annual rate.</span>
+              <div class="pv-viz">
+                <svg viewBox="0 0 240 52" preserveAspectRatio="none" aria-hidden="true">
+                  <path id="pv-area" d="M0,52 L0,49 C40,47 78,42 112,33 C146,24 182,13 240,2 L240,52 Z" fill="var(--accent)" opacity="0.14"></path>
+                  <path id="pv-line" d="M0,49 C40,47 78,42 112,33 C146,24 182,13 240,2" fill="none" stroke="var(--accent)" stroke-width="2"></path>
+                  <circle cx="240" cy="2" r="2.6" fill="var(--accent)"></circle>
+                </svg>
+              </div>
+            </div>
+
+            <div class="pv-card">
+              <span class="pv-card-t">Collatz paths</span>
+              <span class="pv-card-d">Every starting value under 10,000.</span>
+              <div class="pv-viz">
+                <svg viewBox="0 0 120 52" preserveAspectRatio="none" aria-hidden="true">
+                  <path d="M2,50 L10,18 L18,44 L26,9 L34,38 L42,25 L50,47 L58,14 L66,35 L74,21 L82,45 L90,6 L98,31 L106,42 L114,27"
+                        fill="none" stroke="var(--accent)" stroke-width="1.4" opacity="0.85"></path>
+                  <path d="M2,50 L10,40 L18,46 L26,33 L34,44 L42,38 L50,49 L58,35 L66,43 L74,37 L82,48 L90,30 L98,41 L106,46 L114,39"
+                        fill="none" stroke="var(--muted)" stroke-width="1.1" opacity="0.5"></path>
+                </svg>
+              </div>
+            </div>
+
+            <div class="pv-card">
+              <span class="pv-card-t">Base converter</span>
+              <span class="pv-card-d">Decimal, hex, binary.</span>
+              <div class="pv-nums">
+                <span class="pv-num-big">1,024</span>
+                <span class="pv-num-small">0x400</span>
+                <span class="pv-num-small">100 0000 0000</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="pv-tool">
+            <div class="pv-field">
+              <label class="pv-flabel" for="pv-amount">Monthly contribution</label>
+              <input class="pv-input" id="pv-amount" type="text" value="250.00" readonly>
+            </div>
+            <div class="pv-field">
+              <label class="pv-flabel" for="pv-rate">Annual rate</label>
+              <input class="pv-input" id="pv-rate" type="text" value="5.4%" readonly>
+            </div>
+            <div class="pv-out">
+              <div class="pv-out-v">£41,827</div>
+              <div class="pv-out-l">After 10 years</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="roles">
+      <span class="eyebrow">The rule that holds it together</span>
+      <p class="note" style="margin-top:9px">Colour appears when something is interactive, changing, or being measured. Never otherwise. Nav, headings, cards, borders and body text stay grey no matter how many tools you add, which is what keeps fifteen unrelated projects looking like one site. Because the chrome stays quiet, charts can use colour freely.</p>
+      <div class="role-grid" id="role-grid"></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Batch one</span>
+      <h2>Dark ground, bright accent</h2>
+      <p class="note">Each swatch runs ground, surface, line, muted, text, then the accent at double width. Top row is the dark rendering, bottom row the light. The risk rating is how close that palette sits to the look every AI-built site currently has. High risk does not mean avoid it, it means the treatment has to carry more weight.</p>
+      <p class="note">All ten share one architecture: a neutral or near-neutral ground with a single saturated accent. That architecture is itself a tell, which is what batch two addresses.</p>
+    </div>
+    <div class="pal-grid" id="pal-grid"></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Batch two</span>
+      <h2>Different grounds entirely</h2>
+      <p class="note">Twelve palettes that change the structure rather than the hue. Grounds that are dyed rather than grey, one that sits at mid-tone instead of choosing a side, two-ink print systems with no grey ramp at all, and one where colour only exists where something is interactive. No yellow anywhere.</p>
+    </div>
+    <div class="pal-grid" id="pal-grid-2"></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Sixteen faces</span>
+      <h2>Type</h2>
+      <p class="note">Each specimen shows a headline, the digits your tools will output, and a line of body text. Watch the digits closely. Half of what you build prints numbers, so a face whose figures are cramped or uneven will undermine every calculator on the site.</p>
+    </div>
+    <div id="type-groups"></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Where this landed</span>
+      <h2>The direction</h2>
+      <p class="note">Signal with Zilla Slab. The colour system withholds personality on purpose, so the type supplies it. That division of labour is what makes the restraint feel deliberate rather than empty.</p>
+    </div>
+    <div class="picks">
+      <div class="pick">
+        <span class="tag">Chosen</span>
+        <h3>Signal / Green</h3>
+        <p>Greyscale chrome with green for anything interactive and red reserved for errors. Green as the primary interactive colour is genuinely rare, since almost everything defaults to blue. It reads calmer and slightly less clickable, which suits a site people browse more than they operate.</p>
+      </div>
+      <div class="pick">
+        <span class="tag">Chosen</span>
+        <h3>Zilla Slab</h3>
+        <p>The colour system withholds personality on purpose, so the type has to supply it. Zilla is Mozilla's, drawn to sit beside Fira Sans and Fira Mono, which is why those three need no refereeing. Change the body and mono faces in the mixer if you want to test the alternatives.</p>
+      </div>
+      <div class="pick">
+        <span class="tag">Resolved</span>
+        <h3>No positive colour</h3>
+        <p>Green cannot mean both interactive and confirmed. Rather than invent a second green, the confirmed state loses its colour entirely and uses a checkmark and a weight change instead. Fewer roles, no collision, and more in keeping with the rule than a workaround would be.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">Specimens for arafatrais.com / byarafat.com &nbsp;·&nbsp; Next.js 16, Tailwind 4</div>
+</footer>
+
+<script>
+const PALETTES = [
+  { id:"ctos", name:"ctOS", ref:"Watch Dogs Legion",
+    note:"London fog and electric mint. Cold, wet concrete with one chemical accent. The closest match to Legion's interface language, and the most obviously techy of the set.",
+    risk:"med", riskText:"Mint on near-black is drifting toward crypto-startup. Hard edges and real greys pull it back.",
+    dark:{bg:"#0B0E10",surface:"#151A1E",line:"#232A30",muted:"#7E8B95",text:"#E6ECF0",accent:"#35E8A8",signal:"#FF5A3C"},
+    light:{bg:"#F2F4F5",surface:"#FFFFFF",line:"#DFE4E7",muted:"#5D6970",text:"#10161A",accent:"#00A972",signal:"#E04B2E"} },
+
+  { id:"phosphor", name:"Phosphor", ref:"Cold War / CRT",
+    note:"Warm graphite with amber phosphor, the exact colour of an amber monitor. The warmth sits in the neutrals rather than the accent, which is what stops it reading as orange.",
+    risk:"high", riskText:"Rated low on first pass, corrected to high. Amber on near-black is the house style of every terminal-aesthetic AI site. Avoid.",
+    dark:{bg:"#101010",surface:"#191813",line:"#2A2822",muted:"#8C8676",text:"#E8E2D2",accent:"#FFB020",signal:"#C8482F"},
+    light:{bg:"#F5F3EC",surface:"#FFFFFF",line:"#E2DED0",muted:"#6A6555",text:"#1A1813",accent:"#B87400",signal:"#B23E28"} },
+
+  { id:"tribunal", name:"Tribunal", ref:"Loki / TVA",
+    note:"Ochre and deep brown. Anchored on the brown rather than the cream, which is the whole trick. Bureaucratic retrofuturism, signage and rubber stamps.",
+    risk:"high", riskText:"One step from the beige-and-terracotta look every AI site ships. Survives only with flat fills and hard edges.",
+    dark:{bg:"#17110C",surface:"#221913",line:"#33251A",muted:"#98876F",text:"#EDE2D0",accent:"#E08428",signal:"#7C9A6A"},
+    light:{bg:"#EFE8DB",surface:"#F9F5EC",line:"#DDD2BE",muted:"#6D5D48",text:"#241A11",accent:"#C05F17",signal:"#5C7A4C"} },
+
+  { id:"jade", name:"Jade Terminal", ref:"Emerald, done properly",
+    note:"A green that is not the default framework green. Deeper, greyer, closer to jade than emerald, with mustard as the secondary signal. Calm rather than neon.",
+    risk:"low", riskText:"Most green sites use the same one stock green. This is not it.",
+    dark:{bg:"#08110D",surface:"#101B16",line:"#1C2C24",muted:"#75897F",text:"#E0EAE4",accent:"#00B37E",signal:"#E8C547"},
+    light:{bg:"#F0F4F1",surface:"#FFFFFF",line:"#D9E2DC",muted:"#566158",text:"#0C1711",accent:"#00845C",signal:"#A8801A"} },
+
+  { id:"blueprint", name:"Blueprint", ref:"Cyanotype drawing",
+    note:"Technical drawing navy with a hot coral accent. Reads as engineering rather than gaming, which means it carries a tutoring page without any rework.",
+    risk:"low", riskText:"Navy and coral is an old print pairing, not a current generator habit.",
+    dark:{bg:"#0A1220",surface:"#111C30",line:"#1E2C45",muted:"#7186A3",text:"#DCE5F2",accent:"#FF6B4A",signal:"#4DA6FF"},
+    light:{bg:"#EDF1F7",surface:"#FFFFFF",line:"#D3DCE8",muted:"#55637A",text:"#0B1524",accent:"#D9482A",signal:"#1B6FCC"} },
+
+  { id:"oxide", name:"Oxide", ref:"Orange, done properly",
+    note:"Rust on cold slate. You said you like orange but worry it is overused. This is the fix: put a warm accent on a genuinely cold ground and it reads as deliberate rather than decorative.",
+    risk:"med", riskText:"Orange is common. Rust on cold grey is not. Never let it gradient.",
+    dark:{bg:"#0E1114",surface:"#171B20",line:"#252B32",muted:"#7C858F",text:"#E5E9ED",accent:"#D4552E",signal:"#6E9BC4"},
+    light:{bg:"#F4F5F6",surface:"#FFFFFF",line:"#DEE1E4",muted:"#5B646D",text:"#14181C",accent:"#B8431F",signal:"#3D6E9C"} },
+
+  { id:"static", name:"Static", ref:"VHS tracking",
+    note:"A duotone rather than a single accent: tape cyan and tape magenta, used as a pair with strict rules. Cyan for interactive, magenta for live and changing values.",
+    risk:"med", riskText:"Two accents only work if each one means something. Decorate with them and it collapses.",
+    dark:{bg:"#121317",surface:"#1B1D23",line:"#2A2D36",muted:"#83848C",text:"#E8E7E4",accent:"#34D4E3",signal:"#E8437D"},
+    light:{bg:"#F4F4F3",surface:"#FFFFFF",line:"#E0E0DE",muted:"#5E5F66",text:"#16171B",accent:"#0093A8",signal:"#C4266A"} },
+
+  { id:"aubergine", name:"Aubergine", ref:"Purple, done properly",
+    note:"Deep desaturated plum with a periwinkle accent. The only way purple survives right now is without a single gradient or glow anywhere near it.",
+    risk:"high", riskText:"Purple is the signature AI colour. Flat fills and cold neutrals are non-negotiable here.",
+    dark:{bg:"#121019",surface:"#1C1826",line:"#2B2539",muted:"#857D9B",text:"#E7E3F0",accent:"#8E8FFA",signal:"#F0A868"},
+    light:{bg:"#F3F2F6",surface:"#FFFFFF",line:"#E0DDE6",muted:"#605970",text:"#16131F",accent:"#5B4FD6",signal:"#C4761F"} },
+
+  { id:"plaster", name:"Plaster", ref:"Cool bone, not cream",
+    note:"The light-first option. Bone rather than cream: the neutrals have no yellow in them at all, which is precisely what separates this from the warm-paper look you were worried about.",
+    risk:"med", riskText:"Light and warm is the AI tell. Light and cool, with a signal red, is not.",
+    dark:{bg:"#131414",surface:"#1C1D1D",line:"#2A2B2B",muted:"#83868A",text:"#ECECEA",accent:"#F04A3C",signal:"#52A39C"},
+    light:{bg:"#F1F1EF",surface:"#FFFFFF",line:"#DCDCD8",muted:"#61666A",text:"#17191A",accent:"#E0342A",signal:"#35706B"} },
+
+  { id:"graphite", name:"Graphite", ref:"The safe one",
+    note:"Near monochrome with one electric blue pop. The least distinctive option and the one that will look correct in five years. Type and spacing carry everything.",
+    risk:"low", riskText:"Quiet enough to have no tell at all. The risk here is blandness, not slop.",
+    dark:{bg:"#0D0D0E",surface:"#171718",line:"#262627",muted:"#85868A",text:"#EDEDEE",accent:"#0066FF",signal:"#E5B33A"},
+    light:{bg:"#F6F6F7",surface:"#FFFFFF",line:"#E2E2E4",muted:"#5C5D61",text:"#121213",accent:"#0052D4",signal:"#A87A12"} },
+
+  /* ---------- batch two: varied ground architecture ---------- */
+
+  { id:"petrol", name:"Petrol", ref:"Tinted ground", batch:2, ground:"Tinted dark",
+    note:"The ground itself is deep teal rather than grey. That one change does more to shift the feeling than any accent swap, because the colour is in the surface you see most of.",
+    risk:"low", riskText:"Coloured grounds are rare in generated work. Almost everything defaults to neutral.",
+    dark:{bg:"#0A1719",surface:"#102225",line:"#1B3236",muted:"#6E8B8E",text:"#DCE8E8",accent:"#FF7A5C",signal:"#7FD4C4"},
+    light:{bg:"#E8EDEC",surface:"#FFFFFF",line:"#CFDAD9",muted:"#4F6467",text:"#0A1719",accent:"#C4462B",signal:"#1F7A69"} },
+
+  { id:"oxblood", name:"Oxblood", ref:"Tinted ground", batch:2, ground:"Tinted dark",
+    note:"Dark red-brown ground with a cold jade accent. Warm surface against a cool accent is the inverse of the usual arrangement, and the tension is what makes it read as chosen.",
+    risk:"low", riskText:"Nobody builds on an oxblood ground. That is the entire appeal.",
+    dark:{bg:"#1A0F11",surface:"#251619",line:"#382024",muted:"#9B7B7F",text:"#EFE3E2",accent:"#6FBFAE",signal:"#D96A5A"},
+    light:{bg:"#F2EBEA",surface:"#FFFFFF",line:"#DFD2D1",muted:"#6B5254",text:"#1A0F11",accent:"#1F7A69",signal:"#B4442F"} },
+
+  { id:"drab", name:"Drab", ref:"Cold War, no amber", batch:2, ground:"Tinted dark",
+    note:"Military olive with a signal red. This is your Cold War reference without touching the CRT cliche. The drab does the period work and the red does the pointing.",
+    risk:"low", riskText:"Olive is genuinely uncommon on the web and impossible to confuse with a generated palette.",
+    dark:{bg:"#14170F",surface:"#1E2217",line:"#2E3423",muted:"#858C72",text:"#E4E7D9",accent:"#E0563F",signal:"#A8B48C"},
+    light:{bg:"#EDEFE5",surface:"#FAFBF4",line:"#D8DCC9",muted:"#5C6249",text:"#14170F",accent:"#BC3D26",signal:"#5F7040"} },
+
+  { id:"concrete", name:"Concrete", ref:"Mid-tone ground", batch:2, ground:"Mid-tone",
+    note:"Neither light nor dark. A genuine mid grey ground with near-black text and deep navy for interaction. Almost nobody does this, because it is harder to get right, which is exactly why it stands out.",
+    risk:"low", riskText:"Structurally different from anything a generator produces. Needs careful contrast checking.",
+    dark:{bg:"#5E6360",surface:"#6B706D",line:"#4A4F4C",muted:"#2E3331",text:"#F4F4F2",accent:"#FFD9CF",signal:"#1B3358"},
+    light:{bg:"#9EA3A0",surface:"#ACB1AE",line:"#7F8481",muted:"#4D5351",text:"#111413",accent:"#17325C",signal:"#7A2618"} },
+
+  { id:"newsprint", name:"Newsprint", ref:"Print, one spot ink", batch:2, ground:"Light",
+    note:"Recycled paper grey, true black type, one spot red. Built on newspaper logic: the colour appears only where it has a job. Dense, functional, completely unfashionable in the right way.",
+    risk:"med", riskText:"Editorial hairline layouts are a known generated look. The palette is fine; keep the layout out of broadsheet columns.",
+    dark:{bg:"#16161A",surface:"#1F1F23",line:"#2E2E33",muted:"#86858C",text:"#EDECE7",accent:"#F04A42",signal:"#9A99A2"},
+    light:{bg:"#E8E7E2",surface:"#F2F1EC",line:"#CBCAC4",muted:"#55544F",text:"#0A0A0A",accent:"#D9241F",signal:"#6E6D68"} },
+
+  { id:"ice", name:"Ice", ref:"Cold, low chroma", batch:2, ground:"Light",
+    note:"Pale blue-grey with almost no chroma anywhere, and a petrol blue that does all the pointing. Quiet and clinical. The lightest option here that has nothing warm in it at all.",
+    risk:"low", riskText:"Cold light palettes read as instrument panels. The AI default is always warm.",
+    dark:{bg:"#0C1114",surface:"#141B20",line:"#212B32",muted:"#7C8A94",text:"#E3EAEF",accent:"#35B4D9",signal:"#C96A52"},
+    light:{bg:"#EEF1F4",surface:"#FFFFFF",line:"#D6DDE3",muted:"#5A656D",text:"#0F1417",accent:"#0B6E8F",signal:"#B04A2E"} },
+
+  { id:"signal", name:"Signal", ref:"Colour on interaction only", batch:2, ground:"Rule, not palette",
+    note:"A rule more than a palette. The site is strictly greyscale until something is interactive, live or changing, and then one red appears. Every appearance of colour means something. Restraint as the whole idea.",
+    risk:"low", riskText:"The discipline is the design. Almost impossible to produce by accident.",
+    dark:{bg:"#101011",surface:"#191919",line:"#272728",muted:"#86868A",text:"#EEEEEF",accent:"#FF3B2F",signal:"#57575A"},
+    light:{bg:"#F4F4F3",surface:"#FFFFFF",line:"#E1E1DF",muted:"#5B5B59",text:"#111111",accent:"#E02318",signal:"#8A8A87"} },
+
+  { id:"signal-blue", name:"Signal / Blue", ref:"Semantic system", batch:2, ground:"Rule, not palette",
+    note:"Signal with the accent moved to blue so red is free to mean error. Greyscale chrome, blue for anything interactive, green for confirmed, red for wrong. Charts may use all three because data is where colour has a job.",
+    risk:"low", riskText:"Semantic colour systems are how real interfaces work. Generated sites use colour decoratively, which is the opposite.",
+    dark:{bg:"#101011",surface:"#191919",line:"#272728",muted:"#86868A",text:"#EEEEEF",accent:"#3B82F6",signal:"#3FBF7F"},
+    light:{bg:"#F4F4F3",surface:"#FFFFFF",line:"#E1E1DF",muted:"#5B5B59",text:"#111111",accent:"#1D5FD8",signal:"#1F8A55"} },
+
+  { id:"signal-green", name:"Signal / Green", ref:"Semantic system", batch:2, ground:"Rule, not palette",
+    note:"The same system with green doing the interaction work. Greener reads calmer and less clickable than blue, so it suits a site people browse more than they operate. The emerald you liked, used with discipline.",
+    risk:"low", riskText:"Green as the primary interactive colour is genuinely rare. Almost everything defaults to blue.",
+    dark:{bg:"#101011",surface:"#191919",line:"#272728",muted:"#86868A",text:"#EEEEEF",accent:"#2FC48A",signal:"#5B9BF8"},
+    light:{bg:"#F4F4F3",surface:"#FFFFFF",line:"#E1E1DF",muted:"#5B5B59",text:"#111111",accent:"#0E8A5C",signal:"#1D5FD8"} },
+
+  { id:"riso", name:"Riso", ref:"Two inks, no greyscale", batch:2, ground:"Two-ink",
+    note:"Screenprint logic: two inks and paper, no grey ramp at all. Riso blue does structure and type, riso pink does everything interactive. Constrained in a way that forces good decisions.",
+    risk:"low", riskText:"Two-ink systems are a print tradition, not a web generator habit.",
+    dark:{bg:"#0E1330",surface:"#161D42",line:"#232C5C",muted:"#7B87B5",text:"#E4E8F5",accent:"#F2506E",signal:"#6F8AE0"},
+    light:{bg:"#EBECEF",surface:"#FFFFFF",line:"#C9CCD4",muted:"#5A6486",text:"#14204A",accent:"#F2506E",signal:"#1B3BB0"} },
+
+  { id:"copper", name:"Copper", ref:"Warm metal, no amber", batch:2, ground:"Tinted dark",
+    note:"Deep forest ground with copper. If you want warmth without amber or orange, copper is redder and heavier and does not read as a glow. The green ground keeps it grounded.",
+    risk:"med", riskText:"Adjacent to the brass family. Stays clear of it as long as the ground is green rather than brown.",
+    dark:{bg:"#0C1310",surface:"#141C18",line:"#202C26",muted:"#7A8A82",text:"#E2EAE5",accent:"#C4664A",signal:"#79A88F"},
+    light:{bg:"#EDF1EE",surface:"#FFFFFF",line:"#D6E0DA",muted:"#56635C",text:"#0C1310",accent:"#A04E32",signal:"#2F6B52"} },
+
+  { id:"indigo", name:"Indigo", ref:"No black anywhere", batch:2, ground:"Tinted dark",
+    note:"Deep indigo instead of black, with an aqua accent. Removing black entirely from a dark palette makes it feel dyed rather than switched off. One of the blues you said you were drawn to.",
+    risk:"med", riskText:"Blue and aqua is common. The absence of black and the depth of the ground is what separates it.",
+    dark:{bg:"#14162B",surface:"#1D2038",line:"#2B2F4D",muted:"#8186A8",text:"#E6E8F2",accent:"#5EE8C4",signal:"#E86F8E"},
+    light:{bg:"#EEEFF5",surface:"#FFFFFF",line:"#D7D9E4",muted:"#5C6180",text:"#14162B",accent:"#0E9E80",signal:"#C4406A"} },
+
+  { id:"salmon", name:"Charcoal Salmon", ref:"Unexpected pairing", batch:2, ground:"Neutral dark",
+    note:"Flat charcoal with a soft salmon. Warm without being orange, soft without being weak. The least technical option here, and the friendliest, which may matter more once tutoring arrives.",
+    risk:"med", riskText:"Coral accents are having a moment. Keeping the charcoal flat and untinted is what holds it.",
+    dark:{bg:"#131313",surface:"#1C1C1C",line:"#2A2A2A",muted:"#888888",text:"#EDEDED",accent:"#FF8A73",signal:"#73B9FF"},
+    light:{bg:"#F5F4F3",surface:"#FFFFFF",line:"#E3E1DF",muted:"#5C5A58",text:"#131313",accent:"#D95A3C",signal:"#2E6FB8"} },
+
+  { id:"swiss", name:"Slate Swiss", ref:"International Typographic", batch:2, ground:"Light",
+    note:"Blue-grey, off-white, one cold red. The Swiss poster palette, which is where the whole idea of functional design being beautiful started. Nothing here will ever look dated.",
+    risk:"low", riskText:"A sixty-year-old palette. Generated sites reach for warmth, not this.",
+    dark:{bg:"#15191D",surface:"#1E242A",line:"#2C343B",muted:"#838E97",text:"#E7EBEF",accent:"#FF3B44",signal:"#7E96AB"},
+    light:{bg:"#F0F1F2",surface:"#FFFFFF",line:"#D8DBDE",muted:"#5B646C",text:"#1A1F24",accent:"#E01E26",signal:"#41627D"} }
+];
+
+const GROUNDS = {
+  ctos:"Neutral dark", phosphor:"Neutral dark", tribunal:"Tinted dark", jade:"Tinted dark",
+  blueprint:"Tinted dark", oxide:"Neutral dark", static:"Neutral dark", aubergine:"Tinted dark",
+  plaster:"Light", graphite:"Neutral dark"
+};
+
+const FONTS = [
+  { group:"Display and interface", items:[
+    { id:"Archivo", name:"Archivo", note:"Grotesque with real signage weight in its heavy cuts, and polite at body size. The most versatile face here." },
+    { id:"Chakra Petch", name:"Chakra Petch", note:"Angular and squared, designed for sci-fi interfaces. The closest thing to your game references. Use for headings only." },
+    { id:"Saira", name:"Saira", note:"Technical and slightly condensed, with a full width range. Military instrument panel without tipping into novelty." },
+    { id:"Bricolage Grotesque", name:"Bricolage Grotesque", note:"Quirky and asymmetric, with an optical size axis. Distinctive and genuinely uncommon." },
+    { id:"Unbounded", name:"Unbounded", note:"Geometric and chunky. Loud in the good way, but it needs a lot of space around it." },
+    { id:"Anton", name:"Anton", note:"Heavy condensed poster type. One size only, so it is a headline face and nothing else." },
+    { id:"Syne", name:"Syne", note:"Wide and unusual. Gallery energy rather than instrument energy. Included as the outlier." }
+  ]},
+  { group:"Slab", role:"display", items:[
+    { id:"Zilla Slab", name:"Zilla Slab", note:"Mozilla's typeface. Technical slab with squared-off terminals, readable at small sizes, characterful at large ones. Your pick." },
+    { id:"Bitter", name:"Bitter", note:"Contemporary slab drawn for screen reading. Softer and rounder than Zilla, and comfortable at body size as well as display." },
+    { id:"Roboto Slab", name:"Roboto Slab", note:"The neutral slab. Included for comparison so you can see how much personality Zilla actually has." }
+  ]},
+  { group:"Body and workhorse", role:"body", items:[
+    { id:"Fira Sans", name:"Fira Sans", note:"Mozilla's sans, drawn alongside Zilla Slab. Slightly warm, very legible, and the shapes already agree with your display face. The natural partner." },
+    { id:"IBM Plex Sans", name:"IBM Plex Sans", note:"Institutional and slightly warm. Same logic as Zilla: a technical face commissioned by a company for its own systems." },
+    { id:"Public Sans", name:"Public Sans", note:"Drawn for US government services. Quiet, sturdy, no personality at all, which is the point next to a slab." },
+    { id:"Work Sans", name:"Work Sans", note:"Optimised for screen at middling sizes. Neutral without being characterless." },
+    { id:"Instrument Sans", name:"Instrument Sans", note:"Clean, tight, still uncommon. A good quiet partner for a loud display face." },
+    { id:"Geist", name:"Geist", note:"Sharp, neutral, built for interfaces. Reliable rather than exciting." },
+    { id:"Familjen Grotesk", name:"Familjen Grotesk", note:"Swedish grotesque with slightly odd details that stop it feeling generic. Underused." },
+    { id:"Sora", name:"Sora", note:"Geometric and techy. Comfortable at body size, distinctive in its numerals." }
+  ]},
+  { group:"Mono and data", role:"mono", items:[
+    { id:"Fira Mono", name:"Fira Mono", note:"Completes the Mozilla set. Digits are unambiguous and it sits naturally beside Zilla and Fira Sans." },
+    { id:"IBM Plex Mono", name:"IBM Plex Mono", note:"Warmer and more humanist than most monos. Slab-ish terminals echo Zilla nicely." },
+    { id:"JetBrains Mono", name:"JetBrains Mono", note:"Tall x-height, very clear digits. The safest choice for numeric output." },
+    { id:"Space Mono", name:"Space Mono", note:"A slab mono, so its terminals rhyme with Zilla directly. The most characterful option, and tiring in large amounts." },
+    { id:"Martian Mono", name:"Martian Mono", note:"Wide and deliberately strange. Excellent as a display mono for big numbers, too heavy for paragraphs." }
+  ]}
+];
+
+const PAIRINGS = [
+  { name:"The Mozilla set", d:"Zilla Slab", b:"Fira Sans", m:"Fira Mono",
+    note:"All three drawn for the same organisation, so the shapes already agree. The safest coherent answer and the one I would ship." },
+  { name:"Institutional", d:"Zilla Slab", b:"IBM Plex Sans", m:"IBM Plex Mono",
+    note:"Two technical families commissioned by two tech companies. Slightly warmer and more bureaucratic, which suits the TVA thread in your references." },
+  { name:"Maximum restraint", d:"Zilla Slab", b:"Zilla Slab", m:"IBM Plex Mono",
+    note:"Two faces only. Zilla is readable enough to carry body text, and a two-face system matches Signal's whole discipline of using less." },
+  { name:"Hard contrast", d:"Zilla Slab", b:"Public Sans", m:"JetBrains Mono",
+    note:"A completely neutral body face so the slab does all the talking. Cleanest separation between voice and information." },
+  { name:"All slab terminals", d:"Zilla Slab", b:"Work Sans", m:"Space Mono",
+    note:"Space Mono is itself a slab, so its terminals rhyme with the headings. The most characterful and the easiest to overdo." }
+];
+
+let state = { pal:"signal-green", display:"Zilla Slab", body:"Fira Sans", mono:"Fira Mono", mode:"dark" };
+
+const $ = s => document.querySelector(s);
+const stack = id => `"${id}", ui-sans-serif, system-ui, sans-serif`;
+const monoStack = id => `"${id}", ui-monospace, SFMono-Regular, Menlo, monospace`;
+
+/* ---- build palette chips ---- */
+const palChips = $("#pal-chips");
+PALETTES.forEach(p => {
+  const b = document.createElement("button");
+  b.type = "button"; b.className = "chip"; b.dataset.pal = p.id;
+  b.setAttribute("aria-pressed", String(p.id === state.pal));
+  b.innerHTML = `<span class="sw" style="background:${p.dark.accent}"></span>${p.name}`;
+  b.addEventListener("click", () => { state.pal = p.id; render(); });
+  palChips.appendChild(b);
+});
+
+/* ---- build type-role chips ---- */
+const ROLE_TARGET = { display:"#display-chips", body:"#body-chips", mono:"#mono-chips" };
+const roleOf = groupName =>
+  groupName === "Mono and data" ? "mono" :
+  groupName === "Body and workhorse" ? "body" : "display";
+
+FONTS.forEach(g => {
+  const role = g.role || roleOf(g.group);
+  const host = $(ROLE_TARGET[role]);
+  g.items.forEach(f => {
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "chip"; b.dataset.role = role; b.dataset.font = f.id;
+    b.textContent = f.name;
+    b.style.fontFamily = role === "mono" ? monoStack(f.id) : stack(f.id);
+    b.addEventListener("click", () => { state[role] = f.id; render(); });
+    host.appendChild(b);
+  });
+});
+
+/* ---- pairing presets ---- */
+const pairChips = $("#pair-chips");
+PAIRINGS.forEach(p => {
+  const b = document.createElement("button");
+  b.type = "button"; b.className = "chip"; b.dataset.pair = p.name;
+  b.title = p.note;
+  b.textContent = p.name;
+  b.addEventListener("click", () => {
+    state.display = p.d; state.body = p.b; state.mono = p.m; render();
+  });
+  pairChips.appendChild(b);
+});
+
+/* ---- mode chips ---- */
+document.querySelectorAll("#mode-chips .chip").forEach(b => {
+  b.addEventListener("click", () => { state.mode = b.dataset.mode; render(); });
+});
+
+/* ---- render live preview ---- */
+function render(){
+  const p = PALETTES.find(x => x.id === state.pal);
+  const c = p[state.mode];
+  const pv = $("#preview");
+  Object.entries(c).forEach(([k,v]) => pv.style.setProperty("--" + k, v));
+  pv.style.setProperty("--f-display", stack(state.display));
+  pv.style.setProperty("--f-body", stack(state.body));
+  pv.style.setProperty("--f-mono", monoStack(state.mono));
+
+  document.querySelectorAll("#pal-chips .chip").forEach(b =>
+    b.setAttribute("aria-pressed", String(b.dataset.pal === state.pal)));
+  document.querySelectorAll("#mode-chips .chip").forEach(b =>
+    b.setAttribute("aria-pressed", String(b.dataset.mode === state.mode)));
+  document.querySelectorAll("[data-role]").forEach(b =>
+    b.setAttribute("aria-pressed", String(state[b.dataset.role] === b.dataset.font)));
+  document.querySelectorAll("#pair-chips .chip").forEach(b => {
+    const p = PAIRINGS.find(x => x.name === b.dataset.pair);
+    b.setAttribute("aria-pressed",
+      String(p.d === state.display && p.b === state.body && p.m === state.mono));
+  });
+
+  const dk = state.mode === "dark";
+  const ok  = c.ok  || (dk ? "#3FBF7F" : "#1F8A55");
+  const bad = c.bad || (dk ? "#F2555A" : "#CC2229");
+  const ROLES = [
+    ["Chrome", c.surface, "Nav, cards, borders, headings, body text. Grey, always. This is most of the page."],
+    ["Interactive", c.accent, "Links, buttons, focus rings, active inputs. The one colour that means you can touch it."],
+    ["Alert", bad, "Errors and warnings only. Never borrowed for anything else."],
+    ["Confirmed", c.muted, "No colour at all. A checkmark and a weight change. Deleting this role is what stops green doing two jobs."],
+    ["Data", c.accent + " / " + ok + " / " + bad, "Inside charts only, additional hues are fair game. Data is where colour earns its keep."]
+  ];
+  $("#role-grid").innerHTML = ROLES.map(([n, col, d]) => `
+    <div class="role">
+      <div class="role-sw" style="background:${col.includes("/") ? `linear-gradient(90deg,${col.split(" / ").join(",")})` : col}"></div>
+      <span class="role-n">${n}</span>
+      <span class="role-d">${d}</span>
+      <span class="role-hex">${col}</span>
+    </div>`).join("");
+}
+
+/* ---- palette cards ---- */
+const grid = $("#pal-grid");
+const grid2 = $("#pal-grid-2");
+PALETTES.forEach(p => {
+  const d = p.dark, l = p.light;
+  const ground = p.ground || GROUNDS[p.id] || "";
+  const el = document.createElement("article");
+  el.className = "pal";
+  el.innerHTML = `
+    <div class="pal-top">
+      <span class="pal-name">${p.name}</span>
+      <span class="pal-ref">${ground}<br>${p.ref}</span>
+    </div>
+    <div class="bars" aria-hidden="true">
+      <div style="background:${d.bg}"></div>
+      <div style="background:${d.surface}"></div>
+      <div style="background:${d.line}"></div>
+      <div style="background:${d.muted}"></div>
+      <div style="background:${d.text}"></div>
+      <div class="wide" style="background:${d.accent}"></div>
+    </div>
+    <div class="bars" aria-hidden="true">
+      <div style="background:${l.bg}"></div>
+      <div style="background:${l.surface}"></div>
+      <div style="background:${l.line}"></div>
+      <div style="background:${l.muted}"></div>
+      <div style="background:${l.text}"></div>
+      <div class="wide" style="background:${l.accent}"></div>
+    </div>
+    <div class="pal-hex">
+      <span><b>dark</b> ${d.bg}</span>
+      <span><b>light</b> ${l.bg}</span>
+      <span><b>accent</b> ${d.accent} / ${l.accent}</span>
+    </div>
+    <div class="pal-note">
+      <p>${p.note}</p>
+      <p>${p.riskText}</p>
+      <span class="risk ${p.risk}"><i></i>${p.risk === "low" ? "Low" : p.risk === "med" ? "Medium" : "High"} slop risk</span>
+    </div>`;
+  el.addEventListener("click", () => { state.pal = p.id; render(); window.scrollTo({top:0,behavior:"smooth"}); });
+  el.style.cursor = "pointer";
+  (p.batch === 2 ? grid2 : grid).appendChild(el);
+});
+
+/* ---- type specimens ---- */
+const tg = $("#type-groups");
+FONTS.forEach(g => {
+  const sec = document.createElement("div");
+  sec.className = "type-group";
+  const role = g.role || roleOf(g.group);
+  sec.innerHTML = `<div class="group-label">${g.group}</div>`;
+  g.items.forEach(f => {
+    const row = document.createElement("div");
+    row.className = "spec";
+    const fam = role === "mono" ? monoStack(f.id) : stack(f.id);
+    row.innerHTML = `
+      <div class="spec-meta">
+        <span class="spec-name">${f.name}</span>
+        <span class="spec-note">${f.note}</span>
+      </div>
+      <div class="spec-show">
+        <span class="spec-line" style="font-family:${fam}">Small tools, built to be used</span>
+        <span class="spec-digits" style="font-family:${fam}">0123456789 &nbsp; £41,827.50 &nbsp; 5.4% &nbsp; 0x400</span>
+        <span class="spec-body" style="font-family:${fam}">Every project on this site is a self-contained thing you can open, use and send to someone. Nothing needs an account and nothing asks for your data.</span>
+      </div>`;
+    row.addEventListener("click", () => { state[role] = f.id; render(); window.scrollTo({top:0,behavior:"smooth"}); });
+    row.style.cursor = "pointer";
+    sec.appendChild(row);
+  });
+  tg.appendChild(sec);
+});
+
+render();
+</script>
