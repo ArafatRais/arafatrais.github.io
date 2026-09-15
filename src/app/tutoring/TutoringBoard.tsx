@@ -167,6 +167,7 @@ const PDF_CHUNK_SIZE = 64_000;
 const SESSION_STORAGE_KEY = "arafatrais-tutoring-session-code";
 const PDF_STORAGE_KEY = "arafatrais-tutoring-pdf";
 const BOARD_STORAGE_KEY = "arafatrais-tutoring-board-state";
+const SAMPLE_DISMISSED_KEY = "arafatrais-tutoring-sample-dismissed";
 
 function createSessionCode() {
   const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
@@ -375,6 +376,15 @@ function Icon({ name }: { name: string }) {
     return (
       <svg {...common}>
         <path d="M12 16V4M7 9l5-5 5 5M5 20h14" />
+      </svg>
+    );
+  }
+
+  if (name === "table") {
+    return (
+      <svg {...common}>
+        <rect x="3.5" y="4" width="17" height="16" rx="1.5" />
+        <path d="M3.5 9.5h17M9 4v16m6-16v16" />
       </svg>
     );
   }
@@ -636,6 +646,7 @@ export default function TutoringBoard() {
   const [activeStrokeId, setActiveStrokeId] = useState("");
   const [liveStrokes, setLiveStrokes] = useState<Annotation[]>([]);
   const [detailsVisible, setDetailsVisible] = useState(true);
+  const [periodicTableOpen, setPeriodicTableOpen] = useState(false);
   const [studentViewMode, setStudentViewMode] =
     useState<StudentViewMode>("follow");
   const [studentCanEdit, setStudentCanEdit] = useState(true);
@@ -775,6 +786,43 @@ export default function TutoringBoard() {
       window.clearTimeout(timer);
     };
   }, [role, sessionCode]);
+
+  useEffect(() => {
+    if (
+      role !== "tutor" ||
+      window.localStorage.getItem(SAMPLE_DISMISSED_KEY) !== "true"
+    ) {
+      return;
+    }
+
+    const nextDocuments = openDocumentsRef.current.filter(
+      (document) => document.id !== SAMPLE_DOCUMENT.id,
+    );
+    if (nextDocuments.length === 0) {
+      nextDocuments.push({
+        id: createDocumentId(),
+        kind: "blank",
+        name: "Untitled notes",
+        pageCount: 1,
+      });
+    }
+    openDocumentsRef.current = nextDocuments;
+    setOpenDocuments(nextDocuments);
+
+    if (activeDocumentIdRef.current === SAMPLE_DOCUMENT.id) {
+      const fallback = nextDocuments[0];
+      activeDocumentIdRef.current = fallback.id;
+      setActiveDocumentId(fallback.id);
+      setDocumentKind(fallback.kind);
+      setDocumentName(fallback.name);
+      setPageNumber(1);
+      setPageCount(fallback.pageCount);
+      pageCountRef.current = fallback.pageCount;
+      setPaperSize(DEFAULT_PAPER);
+      pendingBlankDocumentRef.current =
+        fallback.kind === "blank" ? fallback.id : null;
+    }
+  }, [role]);
 
   useEffect(() => {
     if (!boardHydrated || role !== "tutor" || sessionCode === "------") return;
@@ -1606,7 +1654,11 @@ export default function TutoringBoard() {
           setLiveStrokes(next);
         };
 
-        const readSession = () => {
+        const readSession = (event?: Y.YMapEvent<unknown>) => {
+          // Tutor viewport writes are already reflected locally. Re-reading one
+          // here also runs the page restoration path, snapping scroll to page start.
+          if (roleRef.current === "tutor" && event?.transaction.local) return;
+
           const sharedViewMode: StudentViewMode =
             syncContext.session.get("viewMode") === "free" ? "free" : "follow";
           const sharedCanEdit = syncContext.session.get("studentCanEdit") !== false;
@@ -1824,11 +1876,14 @@ export default function TutoringBoard() {
         readSession();
         readPdf();
         if (roleRef.current === "tutor") {
+          const initialDocument = openDocumentsRef.current.find(
+            (document) => document.id === activeDocumentIdRef.current,
+          ) ?? openDocumentsRef.current[0];
           if (!syncContext.session.has("documentKind")) {
-            syncContext.session.set("documentKind", "sample");
+            syncContext.session.set("documentKind", initialDocument?.kind ?? "blank");
           }
           if (!syncContext.session.has("documentId")) {
-            syncContext.session.set("documentId", "sample");
+            syncContext.session.set("documentId", initialDocument?.id ?? "");
           }
         }
         if (pendingPdfRef.current && pendingPdfIdRef.current) {
@@ -3099,11 +3154,19 @@ export default function TutoringBoard() {
     const closingDocument = openDocumentsRef.current.find(
       (document) => document.id === documentId,
     );
-    if (!closingDocument || closingDocument.kind !== "pdf") return;
+    if (!closingDocument) return;
 
     const nextDocuments = openDocumentsRef.current.filter(
       (document) => document.id !== documentId,
     );
+    if (nextDocuments.length === 0) {
+      nextDocuments.push({
+        id: createDocumentId(),
+        kind: "blank",
+        name: "Untitled notes",
+        pageCount: 1,
+      });
+    }
     const nextAnnotations = annotations.filter(
       (annotation) => annotation.documentId !== documentId,
     );
@@ -3116,40 +3179,21 @@ export default function TutoringBoard() {
     setTextBoxes(nextTextBoxes);
     setHistory([]);
     setFuture([]);
-    if (pdfFileRef.current?.name === closingDocument.name) {
+    const isClosingActivePdf =
+      closingDocument.kind === "pdf" &&
+      activeDocumentIdRef.current === closingDocument.id;
+    if (isClosingActivePdf) {
       pdfFileRef.current = null;
       pdfDocumentRef.current = null;
       setPdfFile(null);
       window.localStorage.removeItem(PDF_STORAGE_KEY);
     }
+    if (closingDocument.kind === "sample") {
+      window.localStorage.setItem(SAMPLE_DISMISSED_KEY, "true");
+    }
 
     if (activeDocumentId === documentId) {
-      const fallback = nextDocuments[0] ?? SAMPLE_DOCUMENT;
-      if (!nextDocuments.length) {
-        openDocumentsRef.current = [SAMPLE_DOCUMENT];
-        setOpenDocuments([SAMPLE_DOCUMENT]);
-      }
-      setActiveDocumentId(fallback.id);
-      setDocumentKind(fallback.kind);
-      setDocumentName(fallback.name);
-      setPageNumber(1);
-      setPageCount(fallback.pageCount);
-      pageCountRef.current = fallback.pageCount;
-      setPaperSize(DEFAULT_PAPER);
-      setPdfPagePreviews([]);
-      setSelectedIds([]);
-      if (fallback.kind === "sample" || fallback.kind === "blank") {
-        setPdfFile(null);
-        pdfFileRef.current = null;
-        pdfDocumentRef.current = null;
-      }
-      syncContextRef.current?.doc.transact(() => {
-        syncContextRef.current?.session.set("documentId", fallback.id);
-        syncContextRef.current?.session.set("documentKind", fallback.kind);
-        syncContextRef.current?.session.set("page", 1);
-        syncContextRef.current?.pdfMeta.clear();
-        syncContextRef.current?.pdfChunks.clear();
-      });
+      activateDocument(nextDocuments[0].id);
     }
     replaceSharedContent(nextAnnotations, nextImages, nextTextBoxes);
     setCloseDocumentId(null);
@@ -3159,7 +3203,7 @@ export default function TutoringBoard() {
   const requestCloseDocument = (documentId: string) => {
     if (role !== "tutor") return;
     const document = openDocumentsRef.current.find((item) => item.id === documentId);
-    if (document?.kind === "pdf") setCloseDocumentId(documentId);
+    if (document) setCloseDocumentId(documentId);
   };
 
   const openExportDialog = (
@@ -3369,7 +3413,7 @@ export default function TutoringBoard() {
                       {document.kind === "blank" ? "NOTES" : document.kind === "pdf" ? "PDF" : "SAMPLE"}
                     </span>
                   </button>
-                  {role === "tutor" && document.kind === "pdf" ? (
+                  {role === "tutor" ? (
                     <button
                       className="document-tabbar__tab-close"
                       type="button"
@@ -3404,6 +3448,17 @@ export default function TutoringBoard() {
                 </>
               ) : null}
             </div>
+            <button
+              className="document-tabbar__add document-tabbar__add--reference"
+              type="button"
+              aria-expanded={periodicTableOpen}
+              aria-controls="aqa-periodic-table-viewer"
+              onClick={() => setPeriodicTableOpen((open) => !open)}
+              title={periodicTableOpen ? "Hide AQA periodic table" : "Show AQA periodic table"}
+            >
+              <Icon name="table" />
+              <span>AQA table</span>
+            </button>
           </div>
           <div className="workspace-toolbar" role="toolbar" aria-label="Document and annotation tools">
             <div className="toolbar-group toolbar-group--pages">
@@ -3633,7 +3688,7 @@ export default function TutoringBoard() {
                     <Icon name="x" />
                     <span>Clear</span>
                   </button>
-                  <button className="toolbar-button toolbar-button--action" type="button" onClick={() => openExportDialog()} title="Export annotated PDF">
+                  <button className="toolbar-button toolbar-button--action" type="button" disabled={documentKind === "sample"} onClick={() => openExportDialog()} title={documentKind === "sample" ? "The sample worksheet is not an exportable PDF" : "Export annotated PDF"}>
                     <Icon name="download" />
                     <span>Export PDF</span>
                   </button>
@@ -3951,6 +4006,47 @@ export default function TutoringBoard() {
             </div>
           </div>
 
+          {periodicTableOpen ? (
+            <div className="reference-viewer-backdrop" role="presentation">
+              <section
+                className="reference-viewer"
+                id="aqa-periodic-table-viewer"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="aqa-periodic-table-title"
+              >
+                <header className="reference-viewer__header">
+                  <div>
+                    <span className="eyebrow">AQA A-LEVEL CHEMISTRY</span>
+                    <h2 id="aqa-periodic-table-title">Periodic table &amp; data booklet</h2>
+                  </div>
+                  <div className="reference-viewer__actions">
+                    <a
+                      className="toolbar-button"
+                      href="https://mmerevise.co.uk/app/uploads/2022/10/AQA-A-Level-Chemistry-Insert.pdf"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Open PDF
+                    </a>
+                    <button
+                      className="icon-button"
+                      type="button"
+                      aria-label="Close AQA periodic table"
+                      onClick={() => setPeriodicTableOpen(false)}
+                    >
+                      <Icon name="x" />
+                    </button>
+                  </div>
+                </header>
+                <iframe
+                  title="AQA A-level Chemistry insert, periodic table on page 2"
+                  src="https://mmerevise.co.uk/app/uploads/2022/10/AQA-A-Level-Chemistry-Insert.pdf#page=2"
+                />
+              </section>
+            </div>
+          ) : null}
+
           {joinPromptVisible && role === "student" ? (
             <form className="join-form join-form--toolbar" onSubmit={joinSession}>
               <label htmlFor="toolbar-join-code">Session code</label>
@@ -4028,19 +4124,25 @@ export default function TutoringBoard() {
                 <span className="eyebrow">CLOSE DOCUMENT</span>
                 <h2 id="close-document-title">Close {documentPendingClose.name}?</h2>
                 <p>
-                  This removes the PDF and all of its annotations from this board. Once closed, it cannot be reopened here.
+                  This removes the document and all of its annotations from this board. Once closed, it cannot be reopened here.
                 </p>
-                <p className="confirm-dialog__hint">Export an annotated PDF first if you want to keep a copy.</p>
+                <p className="confirm-dialog__hint">
+                  {documentPendingClose.kind === "sample"
+                    ? "This starter sheet is sample content; removing it does not affect your other documents."
+                    : "Export an annotated PDF first if you want to keep a copy."}
+                </p>
                 <div className="confirm-dialog__actions">
                   <button className="toolbar-button" type="button" onClick={() => setCloseDocumentId(null)}>
                     Keep open
                   </button>
-                  <button className="toolbar-button toolbar-button--join" type="button" disabled={pdfLoading} onClick={() => openExportDialog(documentPendingClose.id, true)}>
-                    <Icon name="download" />
-                    Export &amp; close
-                  </button>
+                  {documentPendingClose.kind !== "sample" ? (
+                    <button className="toolbar-button toolbar-button--join" type="button" disabled={pdfLoading} onClick={() => openExportDialog(documentPendingClose.id, true)}>
+                      <Icon name="download" />
+                      Export &amp; close
+                    </button>
+                  ) : null}
                   <button className="toolbar-button toolbar-button--delete" type="button" onClick={() => removeDocument(documentPendingClose.id)}>
-                    Close without export
+                    {documentPendingClose.kind === "sample" ? "Remove sample" : "Close without export"}
                   </button>
                 </div>
               </section>
