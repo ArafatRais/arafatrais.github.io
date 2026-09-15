@@ -41,24 +41,24 @@ export default function Home() {
           <span className="section-rule" aria-hidden="true" />
         </div>
 
-        <Link className="tool-card tool-card--featured" href="/tutoring">
+        <Link className="tool-card tool-card--featured" href="/acrobat">
           <div className="tool-card__index mono">01</div>
           <div className="tool-card__body">
             <div className="tool-card__topline">
-              <span className="eyebrow">In development</span>
+              <span className="eyebrow">Free / local-first</span>
               <span className="tool-card__arrow" aria-hidden="true">
                 ↗
               </span>
             </div>
-            <h3>Live tutoring board</h3>
+            <h3>AeroPDF editor</h3>
             <p>
-              A shared PDF workspace for explaining problems, annotating
-              together, and keeping the lesson on one page.
+              A focused macOS-style PDF workspace for editing pages, adding
+              text, images, highlights, and comments without an account.
             </p>
             <div className="tool-card__tags mono">
               <span>PDF</span>
-              <span>ANNOTATION</span>
-              <span>REAL-TIME</span>
+              <span>EDIT</span>
+              <span>COMMENTS</span>
             </div>
           </div>
           <div className="tool-card__preview" aria-hidden="true">
