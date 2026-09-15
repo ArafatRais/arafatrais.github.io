@@ -135,6 +135,7 @@ type PdfPage = {
   render: (options: {
     canvasContext: CanvasRenderingContext2D;
     viewport: { width: number; height: number };
+    transform?: number[];
   }) => { promise: Promise<void>; cancel: () => void };
 };
 
@@ -883,17 +884,36 @@ export default function TutoringBoard() {
     const previews: RenderedPdfPage[] = [];
     for (let pageNumber = 1; pageNumber <= pdfDocument.numPages; pageNumber += 1) {
       const page = await pdfDocument.getPage(pageNumber);
+      // Keep a stable CSS viewport, then oversample the backing canvas for
+      // Retina displays. JPEG previews smear the thin rules and small text
+      // common in exam PDFs, so retain the rendered page losslessly as PNG.
       const viewport = page.getViewport({ scale: 2 });
+      const outputScale = Math.min(
+        window.devicePixelRatio || 1,
+        2,
+        4096 / Math.max(viewport.width, viewport.height),
+        Math.sqrt(12_000_000 / (viewport.width * viewport.height)),
+      );
       const canvas = window.document.createElement("canvas");
-      canvas.width = viewport.width;
-      canvas.height = viewport.height;
+      canvas.width = Math.max(1, Math.ceil(viewport.width * outputScale));
+      canvas.height = Math.max(1, Math.ceil(viewport.height * outputScale));
       const context = canvas.getContext("2d");
       if (!context) continue;
-      const task = page.render({ canvasContext: context, viewport });
+      const task = page.render({
+        canvasContext: context,
+        viewport,
+        transform:
+          outputScale === 1
+            ? undefined
+            : [outputScale, 0, 0, outputScale, 0, 0],
+      });
       await task.promise;
+      const src = canvas.toDataURL("image/png");
+      canvas.width = 0;
+      canvas.height = 0;
       previews.push({
         page: pageNumber,
-        src: canvas.toDataURL("image/jpeg", 0.96),
+        src,
         width: viewport.width,
         height: viewport.height,
       });
