@@ -1,0 +1,616 @@
+.page {
+  --ink: #263a31;
+  --muted: #727b70;
+  --line: #e8e3d6;
+  --coral: #e97858;
+  --green: #2c7654;
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse at 88% 0%, rgba(245, 222, 146, 0.3), transparent 28rem),
+    #fbf7ed;
+  color: var(--ink);
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 20px 24px 34px;
+}
+
+.page * {
+  box-sizing: border-box;
+}
+
+.page :where(button, a, input):focus-visible {
+  outline: 3px solid #e97858;
+  outline-offset: 3px;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 1100px;
+}
+
+.topbar,
+.wordmark,
+.backLink,
+.boardHeading,
+.boardFooter,
+.pageFooter,
+.tileFooter,
+.dialogTopline,
+.dialogActions {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.topbar {
+  border-bottom: 1px solid rgba(38, 58, 49, 0.13);
+  min-height: 48px;
+  padding-bottom: 16px;
+}
+
+.wordmark {
+  color: var(--ink);
+  font-size: 0.71rem;
+  font-weight: 800;
+  gap: 9px;
+  letter-spacing: 0.12em;
+  text-decoration: none;
+}
+
+.wordmarkIcon {
+  align-items: center;
+  background: var(--coral);
+  border-radius: 10px 10px 10px 2px;
+  color: white;
+  display: inline-flex;
+  font-size: 1rem;
+  height: 27px;
+  justify-content: center;
+  width: 27px;
+}
+
+.backLink {
+  color: var(--muted);
+  font-size: 0.82rem;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.backLink:hover {
+  color: var(--green);
+}
+
+.hero {
+  align-items: end;
+  display: grid;
+  gap: 32px;
+  grid-template-columns: minmax(0, 1fr) 195px;
+  padding: 52px 0 30px;
+}
+
+.eyebrow,
+.boardEyebrow,
+.scoreLabel,
+.dialogEyebrow {
+  color: var(--green);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(3.4rem, 8vw, 6rem);
+  font-weight: 400;
+  letter-spacing: -0.075em;
+  line-height: 0.92;
+  margin: 13px 0 18px;
+}
+
+.hero h1 span {
+  color: var(--coral);
+  font-style: italic;
+}
+
+.intro {
+  color: #657168;
+  font-size: 1rem;
+  line-height: 1.55;
+  margin: 0;
+  max-width: 510px;
+}
+
+.scoreCard {
+  background: #f0e8d7;
+  border: 1px solid #e4dac7;
+  border-radius: 17px;
+  display: flex;
+  flex-direction: column;
+  padding: 17px 20px 16px;
+}
+
+.scoreLabel {
+  color: #778075;
+  font-size: 0.58rem;
+}
+
+.scoreCard strong {
+  color: var(--ink);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 2.65rem;
+  font-weight: 400;
+  letter-spacing: -0.06em;
+  line-height: 1.15;
+  margin-top: 5px;
+}
+
+.scoreCard strong span {
+  color: #7c8177;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.95rem;
+  letter-spacing: 0;
+}
+
+.scoreNote {
+  color: #777d71;
+  font-size: 0.65rem;
+}
+
+.board {
+  background: rgba(255, 255, 252, 0.9);
+  border: 1px solid #e7e1d3;
+  border-radius: 22px;
+  box-shadow: 0 18px 50px rgba(59, 67, 50, 0.07);
+  padding: 26px;
+}
+
+.boardHeading {
+  gap: 16px;
+  margin-bottom: 17px;
+}
+
+.boardEyebrow {
+  color: #9a9b8e;
+  font-size: 0.58rem;
+}
+
+.boardHeading h2 {
+  color: var(--ink);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.55rem, 3vw, 2rem);
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  margin: 5px 0 0;
+}
+
+.clearButton {
+  background: transparent;
+  border: 1px solid #ddd9cc;
+  border-radius: 999px;
+  color: #687269;
+  cursor: pointer;
+  font-size: 0.75rem;
+  min-height: 40px;
+  padding: 0 14px;
+}
+
+.clearButton:hover:not(:disabled) {
+  background: #fff5ef;
+  border-color: #e5aa98;
+  color: #aa5037;
+}
+
+.clearButton:disabled {
+  cursor: default;
+  opacity: 0.45;
+}
+
+.progressTrack {
+  background: #eeeadd;
+  border-radius: 999px;
+  height: 5px;
+  margin-bottom: 18px;
+  overflow: hidden;
+}
+
+.progressFill {
+  background: linear-gradient(90deg, #63a574, #e97858);
+  border-radius: inherit;
+  display: block;
+  height: 100%;
+  transition: width 220ms ease;
+}
+
+.bingoNotice {
+  align-items: center;
+  background: #fff3d4;
+  border: 1px solid #f1d990;
+  border-radius: 12px;
+  color: #785c16;
+  display: flex;
+  font-size: 0.9rem;
+  font-weight: 700;
+  gap: 9px;
+  margin: 0 0 16px;
+  padding: 11px 14px;
+}
+
+.bingoNotice span {
+  color: var(--coral);
+  font-size: 1.1rem;
+}
+
+.grid {
+  display: grid;
+  gap: 9px;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.tile {
+  align-items: stretch;
+  appearance: none;
+  background: #fffefa;
+  border: 1px solid #e8e6da;
+  border-radius: 13px;
+  color: var(--ink);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  min-height: 143px;
+  padding: 11px 11px 10px;
+  text-align: left;
+  transition:
+    background 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.tile:hover {
+  border-color: #bad1b6;
+  box-shadow: 0 5px 14px rgba(43, 79, 54, 0.08);
+  transform: translateY(-2px);
+}
+
+.tileMatched {
+  background: #eef7ed;
+  border-color: #9bc49e;
+}
+
+.tileMatched:hover {
+  border-color: #72a979;
+}
+
+.tileFree {
+  background: #fff5db;
+  border-color: #eed99d;
+}
+
+.tileNumber {
+  align-items: center;
+  color: #9da094;
+  display: flex;
+  font-size: 0.62rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  justify-content: space-between;
+  letter-spacing: 0.06em;
+  margin-bottom: 8px;
+}
+
+.freeTag {
+  background: #f3e5bc;
+  border-radius: 999px;
+  color: #8d6e27;
+  font-size: 0.48rem;
+  letter-spacing: 0.1em;
+  padding: 3px 5px;
+}
+
+.tilePrompt {
+  color: #34453b;
+  font-size: 0.79rem;
+  font-weight: 700;
+  line-height: 1.28;
+  overflow-wrap: anywhere;
+}
+
+.tileFooter {
+  color: #7d897d;
+  font-size: 0.68rem;
+  gap: 5px;
+  justify-content: flex-start;
+  margin-top: auto;
+  min-height: 23px;
+  padding-top: 7px;
+}
+
+.tapHint {
+  color: #9a9c91;
+  font-size: 0.62rem;
+}
+
+.checkMark {
+  align-items: center;
+  background: #4f9462;
+  border-radius: 50%;
+  color: white;
+  display: inline-flex;
+  flex: 0 0 17px;
+  font-size: 0.65rem;
+  height: 17px;
+  justify-content: center;
+  width: 17px;
+}
+
+.matchedName {
+  color: #326542;
+  font-size: 0.68rem;
+  font-weight: 700;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.boardFooter {
+  color: #898d80;
+  flex-wrap: wrap;
+  font-size: 0.67rem;
+  gap: 8px 16px;
+  justify-content: space-between;
+  padding-top: 18px;
+}
+
+.pageFooter {
+  color: #899083;
+  font-size: 0.64rem;
+  gap: 12px;
+  letter-spacing: 0.08em;
+  padding: 18px 3px 0;
+  text-transform: uppercase;
+}
+
+.modalBackdrop {
+  align-items: center;
+  background: rgba(28, 42, 34, 0.55);
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  padding: 18px;
+  position: fixed;
+  z-index: 10;
+}
+
+.dialog {
+  background: #fffefa;
+  border: 1px solid #e4dfd1;
+  border-radius: 22px;
+  box-shadow: 0 24px 80px rgba(13, 28, 18, 0.3);
+  max-width: 460px;
+  padding: 24px;
+  width: 100%;
+}
+
+.dialogTopline {
+  gap: 16px;
+}
+
+.dialogEyebrow {
+  color: #8a9589;
+  font-size: 0.58rem;
+}
+
+.closeButton {
+  align-items: center;
+  background: #f3f0e8;
+  border: 0;
+  border-radius: 50%;
+  color: #637064;
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 1.3rem;
+  height: 36px;
+  justify-content: center;
+  line-height: 1;
+  width: 36px;
+}
+
+.dialog h2 {
+  color: var(--ink);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 2rem;
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  margin: 12px 0 4px;
+}
+
+.dialogPrompt {
+  color: #4f6255;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.45;
+  margin: 0 0 20px;
+}
+
+.nameForm label {
+  color: #59665d;
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  margin-bottom: 7px;
+}
+
+.nameForm input {
+  background: #fff;
+  border: 1px solid #d8ddcf;
+  border-radius: 11px;
+  color: #263a31;
+  font-size: 1rem;
+  min-height: 50px;
+  padding: 0 13px;
+  width: 100%;
+}
+
+.nameForm input::placeholder {
+  color: #a4aa9f;
+}
+
+.nameForm input:focus {
+  border-color: #79a984;
+  outline: 3px solid rgba(82, 145, 98, 0.18);
+}
+
+.dialogActions {
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 17px;
+}
+
+.dialogActions button {
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 0.78rem;
+  font-weight: 700;
+  min-height: 43px;
+  padding: 0 15px;
+}
+
+.removeButton {
+  background: transparent;
+  border: 0;
+  color: #a44c3a;
+  margin-right: auto;
+  padding-left: 0 !important;
+}
+
+.cancelButton {
+  background: transparent;
+  border: 1px solid #dedfd4;
+  color: #59675d;
+}
+
+.saveButton {
+  background: var(--green);
+  border: 1px solid var(--green);
+  color: white;
+}
+
+.saveButton:hover:not(:disabled) {
+  background: #235f43;
+}
+
+.saveButton:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+
+.privacyNote {
+  color: #8a9287;
+  font-size: 0.67rem;
+  margin: 15px 0 0;
+  text-align: center;
+}
+
+@media (max-width: 760px) {
+  .page {
+    padding: 15px 13px 25px;
+  }
+
+  .hero {
+    align-items: start;
+    gap: 17px;
+    grid-template-columns: minmax(0, 1fr) 118px;
+    padding: 38px 0 23px;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.8rem, 11vw, 4.2rem);
+  }
+
+  .intro {
+    font-size: 0.88rem;
+  }
+
+  .scoreCard {
+    border-radius: 14px;
+    margin-top: 30px;
+    padding: 12px 11px;
+  }
+
+  .scoreCard strong {
+    font-size: 2rem;
+  }
+
+  .scoreNote {
+    font-size: 0.57rem;
+  }
+
+  .board {
+    border-radius: 17px;
+    padding: 17px 13px 14px;
+  }
+
+  .grid {
+    gap: 7px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .tile {
+    border-radius: 11px;
+    min-height: 122px;
+    padding: 9px 8px 8px;
+  }
+
+  .tilePrompt {
+    font-size: 0.77rem;
+  }
+
+  .tileFooter {
+    padding-top: 6px;
+  }
+
+  .tapHint {
+    font-size: 0.6rem;
+  }
+
+  .pageFooter {
+    font-size: 0.56rem;
+    letter-spacing: 0.04em;
+  }
+}
+
+@media (max-width: 390px) {
+  .page {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .hero {
+    grid-template-columns: minmax(0, 1fr) 102px;
+  }
+
+  .hero h1 {
+    font-size: 2.65rem;
+  }
+
+  .boardHeading h2 {
+    font-size: 1.4rem;
+  }
+
+  .clearButton {
+    font-size: 0.68rem;
+    padding: 0 10px;
+  }
+
+  .tilePrompt {
+    font-size: 0.73rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tile,
+  .progressFill {
+    transition: none;
+  }
+}

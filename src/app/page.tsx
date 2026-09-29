@@ -28,7 +28,7 @@ export default function Home() {
         </div>
         <div className="home-index mono" aria-label="Site index">
           <span>INDEX</span>
-          <strong>01 / 01</strong>
+          <strong>01 / 02</strong>
         </div>
       </section>
 
@@ -67,6 +67,55 @@ export default function Home() {
               <span className="mini-paper__line" />
               <span className="mini-paper__scribble" />
               <span className="mini-paper__dot" />
+            </div>
+          </div>
+        </Link>
+
+        <Link className="tool-card" href="/bingo/">
+          <div className="tool-card__index mono">02</div>
+          <div className="tool-card__body">
+            <div className="tool-card__topline">
+              <span className="eyebrow">Meet / mingle / play</span>
+              <span className="tool-card__arrow" aria-hidden="true">
+                ↗
+              </span>
+            </div>
+            <h3>Human Bingo</h3>
+            <p>
+              A phone-friendly icebreaker card. Find someone who fits a prompt,
+              add their name, and try to make a line.
+            </p>
+            <div className="tool-card__tags mono">
+              <span>30 PROMPTS</span>
+              <span>ICEBREAKER</span>
+              <span>PHONE READY</span>
+            </div>
+          </div>
+          <div className="tool-card__preview" aria-hidden="true">
+            <div
+              style={{
+                background: "#fbf7ed",
+                border: "1px solid #ded9cb",
+                boxShadow: "18px 18px 0 rgba(0, 0, 0, 0.14)",
+                display: "grid",
+                gap: 5,
+                gridTemplateColumns: "repeat(5, 22px)",
+                padding: 14,
+                transform: "rotate(-5deg)",
+              }}
+            >
+              {Array.from({ length: 15 }, (_, index) => (
+                <span
+                  key={index}
+                  style={{
+                    aspectRatio: "1",
+                    background: [2, 6, 8, 12].includes(index)
+                      ? "#ef7858"
+                      : "#e3eadb",
+                    border: "1px solid #d6ddce",
+                  }}
+                />
+              ))}
             </div>
           </div>
         </Link>
