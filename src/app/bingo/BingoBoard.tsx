@@ -5,86 +5,54 @@ import Link from "next/link";
 import styles from "./page.module.css";
 
 const prompts = [
-  "Done umrah",
-  "Hafiz",
-  "Speaks Arabic",
-  "Speaks Urdu",
-  "Can cook a traditional meal from scratch",
-  "Signed up for IGym/Ethos",
-  "Is the youngest sibling",
-  "Listens to halal beats while studying",
-  "Has been locked out of their accom room already",
-  "Has a pet",
-  "Brought a console to accom",
-  "Grew up in the Middle East",
-  "Already has ID access to the prayer room",
-  "Went to Brampton Manor",
-  "Can play a musical instrument",
-  "Plays or used to play FIFA like it’s a job",
-  "Has a driver’s licence",
-  "Still hasn’t unpacked",
-  "Been to any South Kensington museum",
-  "Can recommend a good place to eat near campus",
-  "Been to a Premier League game",
-  "Doesn’t study medicine or engineering",
-  "Been on TV",
-  "Been to a different continent this year",
-  "Has lived in more than one city",
-  "Has a sibling at Imperial",
-  "Has gotten lost on campus",
-  "Doesn’t drink coffee or tea",
+  "Is interested in neuroprosthetics or brain–computer interfaces",
+  "Was born in December",
+  "Wants to work in surgical robotics",
+  "Speaks 3 or more languages",
+  "Has tried a VR headset",
+  "Has never broken a bone",
+  "Wants to start their own medtech company",
+  "Is left-handed",
+  "Wears a smartwatch or fitness tracker",
+  "Has a pet at home",
+  "Has been to an Imperial MedTech speaker series talk or workshop",
+  "Was born outside the UK",
   "Free space",
-  "Loves late-night conversations",
+  "Has taken part in a MedTech hackathon or IC HealthHack",
+  "Has run a 5K or longer",
+  "Has an idea for a medical device they’d build",
+  "Plays a musical instrument",
+  "Is a medic who’d love to work with engineers",
+  "Can touch their nose with their tongue",
+  "Has used the Imperial Hackspace or a 3D printer",
+  "Has been to more than 10 countries",
+  "Has done research in an Imperial lab",
+  "Has the same initials as a famous person",
+  "Is studying outside medicine or bioengineering, but still loves medtech",
+  "Is an only child",
 ];
 
-const storageKey = "people-bingo-matches-v1";
+const freeId = 13;
+const storageKey = "medtech-bingo-matches-v1";
 type Matches = Record<number, string>;
 
 function hasBingo(matches: Matches) {
-  const isMatched = (id: number) => Boolean(matches[id]?.trim());
+  const isMatched = (id: number) => id === freeId || Boolean(matches[id]?.trim());
+  const cell = (row: number, column: number) => row * 5 + column + 1;
 
-  // Six columns by five rows: a bingo is any run of five named tiles.
-  for (let row = 0; row < 5; row += 1) {
-    for (let startColumn = 0; startColumn < 2; startColumn += 1) {
-      if (
-        Array.from({ length: 5 }, (_, offset) =>
-          isMatched(row * 6 + startColumn + offset + 1),
-        ).every(Boolean)
-      ) {
-        return true;
-      }
-    }
+  // Five columns by five rows: a bingo is any full row, column or diagonal.
+  const lines: number[][] = [];
+  for (let i = 0; i < 5; i += 1) {
+    lines.push(Array.from({ length: 5 }, (_, j) => cell(i, j)));
+    lines.push(Array.from({ length: 5 }, (_, j) => cell(j, i)));
   }
+  lines.push(Array.from({ length: 5 }, (_, i) => cell(i, i)));
+  lines.push(Array.from({ length: 5 }, (_, i) => cell(i, 4 - i)));
 
-  for (let column = 0; column < 6; column += 1) {
-    if (
-      Array.from({ length: 5 }, (_, row) => isMatched(row * 6 + column + 1)).every(
-        Boolean,
-      )
-    ) {
-      return true;
-    }
-  }
-
-  for (const [startColumn, direction] of [
-    [0, 1],
-    [1, 1],
-    [4, -1],
-    [5, -1],
-  ] as const) {
-    if (
-      Array.from({ length: 5 }, (_, row) =>
-        isMatched(row * 6 + startColumn + direction * row + 1),
-      ).every(Boolean)
-    ) {
-      return true;
-    }
-  }
-
-  return false;
+  return lines.some((line) => line.every(isMatched));
 }
 
-export default function BingoBoard() {
+export default function BingoBoard({ fontClass }: { fontClass: string }) {
   const [matches, setMatches] = useState<Matches>({});
   const [isReady, setIsReady] = useState(false);
   const [activeId, setActiveId] = useState<number | null>(null);
@@ -109,6 +77,7 @@ export default function BingoBoard() {
               if (
                 Number.isInteger(id) &&
                 id > 0 &&
+                id !== freeId &&
                 id <= prompts.length &&
                 typeof value === "string" &&
                 value.trim()
@@ -171,8 +140,8 @@ export default function BingoBoard() {
   }, [activeId]);
 
   const activePrompt = activeId === null ? null : prompts[activeId - 1];
-  const completedCount = Object.values(matches).filter((value) =>
-    value.trim(),
+  const completedCount = Object.entries(matches).filter(
+    ([id, value]) => Number(id) !== freeId && value.trim(),
   ).length;
   const bingo = hasBingo(matches);
 
@@ -206,14 +175,14 @@ export default function BingoBoard() {
   }
 
   return (
-    <main className={styles.page}>
+    <main className={`${styles.page} ${fontClass}`}>
       <div className={styles.container}>
         <header className={styles.topbar}>
           <Link className={styles.wordmark} href="/" aria-label="Back to tools">
             <span className={styles.wordmarkIcon} aria-hidden="true">
               ✳
             </span>
-            <span>MEET &amp; MINGLE</span>
+            <span>MEDTECH SOCIETY</span>
           </Link>
           <Link className={styles.backLink} href="/">
             <span aria-hidden="true">←</span> All tools
@@ -222,21 +191,21 @@ export default function BingoBoard() {
 
         <section className={styles.hero} aria-labelledby="bingo-title">
           <div className={styles.heroCopy}>
-            <p className={styles.eyebrow}>A fresher icebreaker</p>
+            <p className={styles.eyebrow}>Imperial College MedTech Society presents</p>
             <h1 id="bingo-title">
-              People <span>Bingo!</span>
+              Human <span>Bingo</span>
             </h1>
             <p className={styles.intro}>
-              Find someone who fits a clue, ask their name, and fill a square.
-              How many new people can you meet?
+              Meet fellow members, find someone who fits a clue and add their name.
+              Get five in a row to win.
             </p>
           </div>
           <aside className={styles.scoreCard} aria-label="Your progress">
             <span className={styles.scoreLabel}>NAMES FOUND</span>
             <strong aria-live="polite">
-              {completedCount}<span> / 30</span>
+              {completedCount}<span> / 24</span>
             </strong>
-            <span className={styles.scoreNote}>one conversation at a time</span>
+            <span className={styles.scoreNote}>names found so far</span>
           </aside>
         </section>
 
@@ -261,25 +230,25 @@ export default function BingoBoard() {
             role="progressbar"
             aria-label="Bingo card progress"
             aria-valuemin={0}
-            aria-valuemax={prompts.length}
+            aria-valuemax={prompts.length - 1}
             aria-valuenow={completedCount}
           >
             <span
               className={styles.progressFill}
-              style={{ width: `${(completedCount / prompts.length) * 100}%` }}
+              style={{ width: `${(completedCount / (prompts.length - 1)) * 100}%` }}
             />
           </div>
 
           {bingo && (
             <p className={styles.bingoNotice} role="status">
-              <span aria-hidden="true">✦</span> BINGO! You found a line of five.
+              <span aria-hidden="true">✦</span> BINGO! You completed a line.
             </p>
           )}
 
           <div
             className={styles.grid}
             role="group"
-            aria-label="30 human bingo prompts"
+            aria-label="25 human bingo squares"
           >
             {prompts.map((prompt, index) => {
               const id = index + 1;
@@ -290,7 +259,8 @@ export default function BingoBoard() {
                   className={`${styles.tile} ${matchedName ? styles.tileMatched : ""} ${isFreeSpace ? styles.tileFree : ""}`}
                   key={prompt}
                   type="button"
-                  aria-pressed={Boolean(matchedName)}
+                  aria-pressed={isFreeSpace || Boolean(matchedName)}
+                  disabled={isFreeSpace}
                   aria-label={`${prompt}${matchedName ? ` — matched with ${matchedName}` : " — add a name"}`}
                   onClick={(event) => {
                     activeTileRef.current = event.currentTarget;
@@ -300,9 +270,11 @@ export default function BingoBoard() {
                 >
                   <span className={styles.tileNumber}>
                     {String(id).padStart(2, "0")}
-                    {isFreeSpace && <span className={styles.freeTag}>WILD</span>}
+                    {isFreeSpace && <span className={styles.freeTag}>FREE</span>}
                   </span>
-                  <span className={styles.tilePrompt}>{prompt}</span>
+                  <span className={styles.tilePrompt}>
+                    {isFreeSpace ? "FREE" : prompt}
+                  </span>
                   <span className={styles.tileFooter}>
                     {matchedName ? (
                       <>
@@ -311,6 +283,8 @@ export default function BingoBoard() {
                         </span>
                         <span className={styles.matchedName}>{matchedName}</span>
                       </>
+                    ) : isFreeSpace ? (
+                      <span className={styles.tapHint}>Free pizza!</span>
                     ) : (
                       <span className={styles.tapHint}>Tap to add a name</span>
                     )}
@@ -321,14 +295,14 @@ export default function BingoBoard() {
           </div>
 
           <footer className={styles.boardFooter}>
-            <span>25 prompts from your list + 5 extra icebreakers</span>
+            <span>Tue 27 Oct · RSM G41 · Free pizza!</span>
             <span>Names save on this device only</span>
           </footer>
         </section>
 
         <footer className={styles.pageFooter}>
-          <span>Say hello. Start a conversation.</span>
-          <span>PEOPLE BINGO · 2026</span>
+          <span>Say hello. Pitch your first idea.</span>
+          <span>INTRO TO MEDTECH · 2026</span>
         </footer>
       </div>
 
