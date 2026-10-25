@@ -292,10 +292,6 @@ export default function BingoBoard({ fontClass }: { fontClass: string }) {
               );
             })}
           </div>
-
-          <footer className={styles.boardFooter}>
-            <span>Names save on this device only</span>
-          </footer>
         </section>
 
         <footer className={styles.pageFooter}>
