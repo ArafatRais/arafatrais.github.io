@@ -284,9 +284,7 @@ export default function BingoBoard({ fontClass }: { fontClass: string }) {
                         </span>
                         <span className={styles.matchedName}>{matchedName}</span>
                       </>
-                    ) : isFreeSpace ? (
-                      <span className={styles.tapHint}>Free pizza!</span>
-                    ) : (
+                    ) : isFreeSpace ? null : (
                       <span className={styles.tapHint}>Tap to add a name</span>
                     )}
                   </span>
