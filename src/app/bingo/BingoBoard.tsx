@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
-import Link from "next/link";
 import styles from "./page.module.css";
 
 const prompts = [
@@ -181,16 +180,7 @@ export default function BingoBoard({ fontClass }: { fontClass: string }) {
     <main className={`${styles.page} ${fontClass}`}>
       <div className={styles.container}>
         <header className={styles.topbar}>
-          <Link className={styles.wordmark} href="/" aria-label="Back to tools">
-            <span className={styles.wordmarkIcon} aria-hidden="true">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/medtech-logo.png" alt="" />
-            </span>
-            <span>MEDTECH SOCIETY</span>
-          </Link>
-          <Link className={styles.backLink} href="/">
-            <span aria-hidden="true">←</span> All tools
-          </Link>
+          <span className={styles.wordmark}>MEDTECH SOCIETY</span>
         </header>
 
         <section className={styles.hero} aria-labelledby="bingo-title">
