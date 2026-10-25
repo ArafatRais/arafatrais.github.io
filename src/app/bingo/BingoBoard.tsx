@@ -183,7 +183,8 @@ export default function BingoBoard({ fontClass }: { fontClass: string }) {
         <header className={styles.topbar}>
           <Link className={styles.wordmark} href="/" aria-label="Back to tools">
             <span className={styles.wordmarkIcon} aria-hidden="true">
-              ✳
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/medtech-logo.png" alt="" />
             </span>
             <span>MEDTECH SOCIETY</span>
           </Link>
