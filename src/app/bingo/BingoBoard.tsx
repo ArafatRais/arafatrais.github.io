@@ -57,6 +57,7 @@ export default function BingoBoard({ fontClass }: { fontClass: string }) {
   const [isReady, setIsReady] = useState(false);
   const [activeId, setActiveId] = useState<number | null>(null);
   const [name, setName] = useState("");
+  const [bingoDismissed, setBingoDismissed] = useState(false);
   const nameInputRef = useRef<HTMLInputElement>(null);
   const dialogRef = useRef<HTMLElement>(null);
   const activeTileRef = useRef<HTMLButtonElement>(null);
@@ -165,6 +166,7 @@ export default function BingoBoard({ fontClass }: { fontClass: string }) {
       delete next[activeId];
       return next;
     });
+    setBingoDismissed(false);
     closeEditor();
   }
 
@@ -172,6 +174,7 @@ export default function BingoBoard({ fontClass }: { fontClass: string }) {
     if (!completedCount) return;
     if (!window.confirm("Clear all names from this bingo card?")) return;
     setMatches({});
+    setBingoDismissed(false);
   }
 
   return (
@@ -239,12 +242,6 @@ export default function BingoBoard({ fontClass }: { fontClass: string }) {
             />
           </div>
 
-          {bingo && (
-            <p className={styles.bingoNotice} role="status">
-              <span aria-hidden="true">✦</span> BINGO! You completed a line.
-            </p>
-          )}
-
           <div
             className={styles.grid}
             role="group"
@@ -305,6 +302,34 @@ export default function BingoBoard({ fontClass }: { fontClass: string }) {
           <span>INTRO TO MEDTECH · 2026</span>
         </footer>
       </div>
+
+      {bingo && !bingoDismissed && (
+        <div
+          className={styles.bingoOverlay}
+          role="alertdialog"
+          aria-modal="true"
+          aria-labelledby="bingo-win-title"
+        >
+          <span className={styles.bingoStar} aria-hidden="true">
+            ✦
+          </span>
+          <p className={styles.bingoEyebrow}>You completed a line</p>
+          <h2 id="bingo-win-title">
+            <span>Bingo!</span>
+          </h2>
+          <p className={styles.bingoCopy}>
+            Five names in a row. Keep going to fill the rest of the board.
+          </p>
+          <button
+            className={styles.bingoButton}
+            type="button"
+            autoFocus
+            onClick={() => setBingoDismissed(true)}
+          >
+            Keep playing
+          </button>
+        </div>
+      )}
 
       {activePrompt && activeId !== null && (
         <div
