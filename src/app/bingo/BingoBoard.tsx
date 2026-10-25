@@ -242,6 +242,10 @@ export default function BingoBoard({ fontClass }: { fontClass: string }) {
             />
           </div>
 
+          <p className={styles.swipeHint} aria-hidden="true">
+            Swipe sideways to see all five columns →
+          </p>
+
           <div
             className={styles.grid}
             role="group"
