@@ -294,7 +294,6 @@ export default function BingoBoard({ fontClass }: { fontClass: string }) {
           </div>
 
           <footer className={styles.boardFooter}>
-            <span>Tue 27 Oct · RSM G41 · Free pizza!</span>
             <span>Names save on this device only</span>
           </footer>
         </section>
