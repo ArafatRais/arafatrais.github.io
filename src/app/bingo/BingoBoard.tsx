@@ -36,19 +36,10 @@ const storageKey = "medtech-bingo-matches-v1";
 type Matches = Record<number, string>;
 
 function hasBingo(matches: Matches) {
-  const isMatched = (id: number) => id === freeId || Boolean(matches[id]?.trim());
-  const cell = (row: number, column: number) => row * 5 + column + 1;
-
-  // Five columns by five rows: a bingo is any full row, column or diagonal.
-  const lines: number[][] = [];
-  for (let i = 0; i < 5; i += 1) {
-    lines.push(Array.from({ length: 5 }, (_, j) => cell(i, j)));
-    lines.push(Array.from({ length: 5 }, (_, j) => cell(j, i)));
-  }
-  lines.push(Array.from({ length: 5 }, (_, i) => cell(i, i)));
-  lines.push(Array.from({ length: 5 }, (_, i) => cell(i, 4 - i)));
-
-  return lines.some((line) => line.every(isMatched));
+  // Full house: every square except the free one needs a name.
+  return Array.from({ length: prompts.length }, (_, i) => i + 1).every(
+    (id) => id === freeId || Boolean(matches[id]?.trim()),
+  );
 }
 
 export default function BingoBoard({ fontClass }: { fontClass: string }) {
@@ -187,7 +178,7 @@ export default function BingoBoard({ fontClass }: { fontClass: string }) {
             </h1>
             <p className={styles.intro}>
               Meet fellow members, find someone who fits a clue and add their name.
-              Get five in a row to win.
+              Fill every square to win.
             </p>
           </div>
           <aside className={styles.scoreCard} aria-label="Your progress">
@@ -297,12 +288,12 @@ export default function BingoBoard({ fontClass }: { fontClass: string }) {
           <span className={styles.bingoStar} aria-hidden="true">
             ✦
           </span>
-          <p className={styles.bingoEyebrow}>You completed a line</p>
+          <p className={styles.bingoEyebrow}>You filled the whole board</p>
           <h2 id="bingo-win-title">
             <span>Bingo!</span>
           </h2>
           <p className={styles.bingoCopy}>
-            Five names in a row. Keep going to fill the rest of the board.
+            Every square has a name. Amazing networking!
           </p>
           <button
             className={styles.bingoButton}
@@ -310,7 +301,7 @@ export default function BingoBoard({ fontClass }: { fontClass: string }) {
             autoFocus
             onClick={() => setBingoDismissed(true)}
           >
-            Keep playing
+            Close
           </button>
         </div>
       )}
