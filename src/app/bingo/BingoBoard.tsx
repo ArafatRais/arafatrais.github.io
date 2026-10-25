@@ -179,15 +179,11 @@ export default function BingoBoard({ fontClass }: { fontClass: string }) {
   return (
     <main className={`${styles.page} ${fontClass}`}>
       <div className={styles.container}>
-        <header className={styles.topbar}>
-          <span className={styles.wordmark}>MEDTECH SOCIETY</span>
-        </header>
-
         <section className={styles.hero} aria-labelledby="bingo-title">
           <div className={styles.heroCopy}>
             <p className={styles.eyebrow}>Imperial College MedTech Society presents</p>
             <h1 id="bingo-title">
-              Human <span>Bingo</span>
+              Networking <span>Bingo</span>
             </h1>
             <p className={styles.intro}>
               Meet fellow members, find someone who fits a clue and add their name.

@@ -16,9 +16,9 @@ const serif = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  title: "Intro to MedTech Bingo",
+  title: "Networking Bingo",
   description:
-    "Human bingo for the Imperial College MedTech Society. Find someone who fits a prompt and add their name.",
+    "Networking bingo for the Imperial College MedTech Society. Find someone who fits a prompt and add their name.",
 };
 
 export default function BingoPage() {
