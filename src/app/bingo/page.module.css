@@ -682,3 +682,133 @@
     transition: none;
   }
 }
+
+.tile,
+.dialogActions button,
+.bingoButton,
+.clearButton {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.tile:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+@media (max-width: 760px) {
+  .page {
+    padding-bottom: max(25px, env(safe-area-inset-bottom));
+    padding-top: max(15px, env(safe-area-inset-top));
+  }
+
+  .topbar {
+    padding-bottom: 12px;
+  }
+
+  .backLink {
+    min-height: 44px;
+  }
+
+  .hero {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 24px 0 18px;
+  }
+
+  .intro {
+    font-size: 0.85rem;
+    line-height: 1.45;
+  }
+
+  .scoreCard {
+    align-items: baseline;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 4px 10px;
+    margin-top: 0;
+    padding: 11px 14px;
+  }
+
+  .scoreCard strong {
+    font-size: 1.5rem;
+    margin-top: 0;
+  }
+
+  .scoreNote {
+    display: none;
+  }
+
+  .progressTrack {
+    backdrop-filter: blur(8px);
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    box-shadow: 0 0 0 8px rgba(27, 18, 28, 0.9);
+  }
+
+  .boardHeading h2 {
+    font-size: 1.35rem;
+  }
+
+  .clearButton {
+    min-height: 44px;
+  }
+
+  .tile {
+    min-height: 104px;
+  }
+
+  .tileFree {
+    min-height: 104px;
+  }
+
+  .tilePrompt {
+    font-size: 0.82rem;
+  }
+
+  .boardFooter {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .pageFooter {
+    flex-direction: column;
+    gap: 6px;
+    text-align: center;
+  }
+
+  .modalBackdrop {
+    align-items: flex-end;
+    padding: 0;
+  }
+
+  .dialog {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    max-width: none;
+    padding: 20px 18px max(20px, env(safe-area-inset-bottom));
+  }
+
+  .dialogActions button,
+  .nameForm input {
+    min-height: 50px;
+  }
+
+  .dialogActions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .dialogActions > span {
+    display: none;
+  }
+
+  .saveButton {
+    order: -1;
+  }
+
+  .removeButton {
+    margin-right: 0;
+    order: 5;
+    padding-left: 15px !important;
+  }
+}
