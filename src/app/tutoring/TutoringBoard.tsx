@@ -1,11 +1,13 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import type {
   ChangeEvent,
   CSSProperties,
   FormEvent,
   KeyboardEvent,
+  MouseEvent as ReactMouseEvent,
   PointerEvent,
   TouchEvent,
   WheelEvent,
@@ -620,6 +622,7 @@ function ToolButton({
 
 export default function TutoringBoard() {
   const [role, setRole] = useState<Role>("tutor");
+  const [rolePreviewActive, setRolePreviewActive] = useState(false);
   const [activeTool, setActiveTool] = useState<Tool>("pen");
   const [annotations, setAnnotations] = useState<Annotation[]>([]);
   const [images, setImages] = useState<PageImage[]>([]);
@@ -678,6 +681,7 @@ export default function TutoringBoard() {
   const [exporting, setExporting] = useState(false);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const textEditorRef = useRef<HTMLTextAreaElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const pageElementsRef = useRef(new Map<number, HTMLElement>());
   const annotationsRef = useRef<Annotation[]>([]);
@@ -747,6 +751,12 @@ export default function TutoringBoard() {
     imagesRef.current = images;
     textBoxesRef.current = textBoxes;
   }, [annotations, images, textBoxes]);
+
+  useEffect(() => {
+    if (!editingTextId) return;
+    const frame = window.requestAnimationFrame(() => textEditorRef.current?.focus());
+    return () => window.cancelAnimationFrame(frame);
+  }, [editingTextId]);
 
   useEffect(() => {
     zoomRef.current = zoom;
@@ -1058,6 +1068,31 @@ export default function TutoringBoard() {
     },
     [persistTutorPdf, publishPdf, registerOpenDocument, renderPdfPage, renderPdfPages],
   );
+
+  const openAqaChemistryBooklet = async () => {
+    if (role !== "tutor") return;
+
+    const existingDocument = openDocumentsRef.current.find(
+      (document) => document.id === "aqa-chemistry-insert",
+    );
+    if (existingDocument) {
+      activateDocument(existingDocument.id);
+      return;
+    }
+
+    setPdfError("");
+    try {
+      const response = await fetch("/aqa-a-level-chemistry-insert.pdf");
+      if (!response.ok) throw new Error("The AQA booklet could not be downloaded.");
+      const booklet = await response.blob();
+      const file = new File([booklet], "AQA A-Level Chemistry Data Booklet.pdf", {
+        type: "application/pdf",
+      });
+      await loadPdfFile(file, true, "aqa-chemistry-insert");
+    } catch {
+      setPdfError("The saved AQA Chemistry booklet could not be opened. Please try again.");
+    }
+  };
 
   const createBlankDocument = () => {
     if (role !== "tutor") return;
@@ -1493,6 +1528,8 @@ export default function TutoringBoard() {
         const nextImages = [...images, image];
         pushHistory();
         setImages(nextImages);
+        setSelectedIds([image.id]);
+        setActiveTool("select");
         syncContextRef.current?.images.set(image.id, image);
         setNotice("Photo pasted onto the page. Press ⌘V to add another.");
       };
@@ -2322,52 +2359,62 @@ export default function TutoringBoard() {
     replaceSharedContent(annotations, images, nextTextBoxes);
   };
 
+  const handleTextPlacement = (event: ReactMouseEvent<SVGSVGElement>) => {
+    if (!canEdit || activeTool !== "text") return;
+    const point = pointFromClient(event, event.currentTarget);
+    const targetPage = Number(event.currentTarget.dataset.page) || pageNumber;
+    setPageNumber(targetPage);
+    activePointerPageRef.current = targetPage;
+
+    const existingTextBox = textBoxes.find(
+      (textBox) =>
+        textBox.documentId === activeDocumentId &&
+        textBox.page === targetPage &&
+        point.x >= textBox.x &&
+        point.x <= textBox.x + textBox.width &&
+        point.y >= textBox.y &&
+        point.y <= textBox.y + textBox.height,
+    );
+    if (existingTextBox) {
+      setInkColor(existingTextBox.color);
+      setTextFontSize(existingTextBox.fontSize);
+      setSelectedIds([existingTextBox.id]);
+      setEditingTextId(existingTextBox.id);
+      return;
+    }
+
+    const textBox: TextBox = {
+      id: createTextBoxId(),
+      documentId: activeDocumentId,
+      page: targetPage,
+      text: "",
+      x: Math.min(0.72, point.x),
+      y: Math.min(0.88, point.y),
+      width: 0.28,
+      height: 0.12,
+      color: inkColor,
+      fontSize: textFontSize,
+      author: role,
+    };
+    pushHistory();
+    const nextTextBoxes = [...textBoxes, textBox];
+    setTextBoxes(nextTextBoxes);
+    syncContextRef.current?.textBoxes.set(textBox.id, textBox);
+    setSelectedIds([textBox.id]);
+    setEditingTextId(textBox.id);
+  };
+
   const handlePointerDown = (event: PointerEvent<SVGSVGElement>) => {
     if (!canEdit) return;
     if (event.pointerType === "touch" && touchGestureRef.current) return;
-    event.currentTarget.setPointerCapture(event.pointerId);
     const point = pointFromEvent(event);
     const targetPage = Number(event.currentTarget.dataset.page) || pageNumber;
     activePointerPageRef.current = targetPage;
     setPageNumber(targetPage);
 
-    if (activeTool === "text") {
-      const existingTextBox = textBoxes.find(
-        (textBox) =>
-          textBox.documentId === activeDocumentId &&
-          textBox.page === targetPage &&
-          point.x >= textBox.x &&
-          point.x <= textBox.x + textBox.width &&
-          point.y >= textBox.y &&
-          point.y <= textBox.y + textBox.height,
-      );
-      if (existingTextBox) {
-        setInkColor(existingTextBox.color);
-        setTextFontSize(existingTextBox.fontSize);
-        setEditingTextId(existingTextBox.id);
-        return;
-      }
-      const textBox: TextBox = {
-        id: createTextBoxId(),
-        documentId: activeDocumentId,
-        page: targetPage,
-        text: "",
-        x: Math.min(0.72, point.x),
-        y: Math.min(0.88, point.y),
-        width: 0.28,
-        height: 0.12,
-        color: inkColor,
-        fontSize: textFontSize,
-        author: role,
-      };
-      pushHistory();
-      const nextTextBoxes = [...textBoxes, textBox];
-      setTextBoxes(nextTextBoxes);
-      syncContextRef.current?.textBoxes.set(textBox.id, textBox);
-      setSelectedIds([textBox.id]);
-      setEditingTextId(textBox.id);
-      return;
-    }
+    if (activeTool === "text") return;
+
+    event.currentTarget.setPointerCapture(event.pointerId);
 
     if (activeTool === "select") {
       const selectedId = selectedObjectAt(point, targetPage);
@@ -2844,7 +2891,7 @@ export default function TutoringBoard() {
     setNotice(`Ink, images, and text cleared from page ${pageNumber}.`);
   };
 
-  const deleteSelection = () => {
+  const deleteSelection = useCallback(() => {
     if (!canEdit || selectedIds.length === 0) return;
     const nextAnnotations = annotations.filter(
       (annotation) => !selectedIds.includes(annotation.id),
@@ -2858,7 +2905,26 @@ export default function TutoringBoard() {
     setSelectedIds([]);
     replaceSharedContent(nextAnnotations, nextImages, nextTextBoxes);
     setNotice("Selected content deleted.");
-  };
+  }, [annotations, canEdit, images, pushHistory, replaceSharedContent, selectedIds, textBoxes]);
+
+  useEffect(() => {
+    const handleSelectionDelete = (event: globalThis.KeyboardEvent) => {
+      if (event.key !== "Backspace" && event.key !== "Delete") return;
+      const target = event.target;
+      if (
+        target instanceof HTMLElement &&
+        target.closest("input, textarea, select, [contenteditable='true']")
+      ) {
+        return;
+      }
+      if (!canEdit || selectedIds.length === 0) return;
+      event.preventDefault();
+      deleteSelection();
+    };
+
+    window.addEventListener("keydown", handleSelectionDelete);
+    return () => window.removeEventListener("keydown", handleSelectionDelete);
+  }, [canEdit, deleteSelection, selectedIds.length]);
 
   const updateStudentViewMode = (nextMode: StudentViewMode) => {
     if (role !== "tutor") return;
@@ -2885,6 +2951,24 @@ export default function TutoringBoard() {
         ? "Student can annotate the shared document."
         : "Student is now in read-only mode.",
     );
+  };
+
+  const switchRole = (nextRole: Role) => {
+    if (nextRole === role) return;
+    if (nextRole === "tutor" && !rolePreviewActive) return;
+
+    let nextCode = sessionCode;
+    if (nextRole === "tutor" && nextCode === "------") {
+      nextCode = window.localStorage.getItem(SESSION_STORAGE_KEY) || createSessionCode();
+      window.localStorage.setItem(SESSION_STORAGE_KEY, nextCode);
+    }
+
+    setRolePreviewActive(nextRole === "student" ? true : false);
+    setRole(nextRole);
+    setSessionCode(nextCode);
+    setJoinPromptVisible(false);
+    window.history.replaceState(null, "", `/tutoring?room=${nextCode}&role=${nextRole}`);
+    setNotice(nextRole === "student" ? "Student view is ready." : "Tutor controls are ready.");
   };
 
   const copyInvite = async () => {
@@ -3266,6 +3350,7 @@ export default function TutoringBoard() {
   const documentPendingExport = exportDocumentId
     ? openDocuments.find((document) => document.id === exportDocumentId) ?? null
     : null;
+  const isUnjoinedStudent = role === "student" && sessionCode === "------";
   const connectionDescription =
     connectionStatus === "connected"
       ? peerTransport === "browser"
@@ -3273,14 +3358,76 @@ export default function TutoringBoard() {
         : `${peerCount} peer${peerCount === 1 ? "" : "s"} connected directly over WebRTC.`
       : connectionStatus === "offline"
         ? "Peer pairing is unavailable; local drawing still works."
-        : "Room is open. Waiting for a student to join.";
+        : isUnjoinedStudent
+          ? "Enter your tutor’s session code to join the board."
+          : role === "student"
+            ? "Your board is open. Waiting for the tutor to connect."
+            : "Room is open. Waiting for a student to join.";
+  const connectionLabel = isUnjoinedStudent
+    ? "Enter code"
+    : connectionStatus === "connected"
+      ? "Connected"
+      : connectionStatus === "offline"
+        ? "Offline"
+        : connectionStatus === "starting"
+          ? "Connecting"
+          : role === "student"
+            ? "Waiting for tutor"
+            : "Waiting for student";
   const showDetails = role === "tutor" && detailsVisible;
   const documentTabs = openDocuments;
-  const isUnjoinedStudent = role === "student" && sessionCode === "------";
+  const boardHeader = (
+    <header className="board-header">
+      <div className="board-header__left">
+        <Link className="back-link" href="/" aria-label="Back to tools">
+          <Icon name="chevron-left" />
+          <span>Tools</span>
+        </Link>
+        <span className="header-divider" aria-hidden="true" />
+        <div className="board-header__title">
+          <span className="eyebrow">TEACHING INSTRUMENT / 01</span>
+          <h1>Live tutoring board</h1>
+        </div>
+      </div>
+      <div className="board-header__right">
+        <span
+          className="header-status"
+          title={connectionDescription}
+          aria-label={`Connection status: ${connectionLabel}. ${connectionDescription}`}
+        >
+          <span
+            className={`status-dot ${connectionStatus === "offline" ? "status-dot--offline" : connectionStatus === "connected" ? "" : "status-dot--waiting"}`}
+          />
+          <span>{connectionLabel}</span>
+        </span>
+        <div className="role-switch" role="group" aria-label="Switch board view">
+          <button
+            className={role === "tutor" ? "role-switch__active" : ""}
+            type="button"
+            aria-pressed={role === "tutor"}
+            disabled={role === "student" && !rolePreviewActive}
+            title={role === "student" && !rolePreviewActive ? "Tutor controls are only available in the tutor workspace" : "Switch to tutor view"}
+            onClick={() => switchRole("tutor")}
+          >
+            Tutor
+          </button>
+          <button
+            className={role === "student" ? "role-switch__active" : ""}
+            type="button"
+            aria-pressed={role === "student"}
+            onClick={() => switchRole("student")}
+          >
+            Student
+          </button>
+        </div>
+      </div>
+    </header>
+  );
 
   if (isUnjoinedStudent) {
     return (
       <main className="board-shell join-shell">
+        {boardHeader}
         <section className="join-gate" aria-label="Join tutoring session">
           <span className="eyebrow">STUDENT VIEW</span>
           <h1>Join your tutoring board</h1>
@@ -3305,6 +3452,7 @@ export default function TutoringBoard() {
 
   return (
     <main className="board-shell">
+      {boardHeader}
       <div className={`board-layout ${showDetails ? "" : "board-layout--focused"}`}>
         {showDetails ? (
         <aside className="board-sidebar">
@@ -3468,17 +3616,53 @@ export default function TutoringBoard() {
                 </>
               ) : null}
             </div>
-            <button
-              className="document-tabbar__add document-tabbar__add--reference"
-              type="button"
-              aria-expanded={periodicTableOpen}
-              aria-controls="aqa-periodic-table-viewer"
-              onClick={() => setPeriodicTableOpen((open) => !open)}
-              title={periodicTableOpen ? "Hide AQA periodic table" : "Show AQA periodic table"}
-            >
-              <Icon name="table" />
-              <span>AQA table</span>
-            </button>
+            <div className="document-tabbar__actions">
+              {role === "tutor" ? (
+                <div className="document-tabbar__mode-switch" role="group" aria-label="Student page access">
+                  <button
+                    className={studentViewMode === "follow" ? "document-tabbar__mode--active" : ""}
+                    type="button"
+                    aria-pressed={studentViewMode === "follow"}
+                    onClick={() => updateStudentViewMode("follow")}
+                    title="Keep the student on your current page and view"
+                  >
+                    Follow tutor
+                  </button>
+                  <button
+                    className={studentViewMode === "free" ? "document-tabbar__mode--active" : ""}
+                    type="button"
+                    aria-pressed={studentViewMode === "free"}
+                    onClick={() => updateStudentViewMode("free")}
+                    title="Let the student browse pages independently"
+                  >
+                    Free navigation
+                  </button>
+                </div>
+              ) : null}
+              {role === "tutor" ? (
+                <button
+                  className="document-tabbar__add"
+                  type="button"
+                  onClick={() => void openAqaChemistryBooklet()}
+                  disabled={pdfLoading}
+                  title="Open the saved AQA Chemistry booklet as an annotatable PDF"
+                >
+                  <Icon name="plus" />
+                  <span>{pdfLoading ? "Opening…" : "AQA PDF"}</span>
+                </button>
+              ) : null}
+              <button
+                className="document-tabbar__add document-tabbar__add--reference"
+                type="button"
+                aria-expanded={periodicTableOpen}
+                aria-controls="aqa-periodic-table-viewer"
+                onClick={() => setPeriodicTableOpen((open) => !open)}
+                title={periodicTableOpen ? "Hide AQA periodic table" : "Show AQA periodic table"}
+              >
+                <Icon name="table" />
+                <span>AQA table</span>
+              </button>
+            </div>
           </div>
           <div className="workspace-toolbar" role="toolbar" aria-label="Document and annotation tools">
             <div className="toolbar-group toolbar-group--pages">
@@ -3714,8 +3898,14 @@ export default function TutoringBoard() {
                   </button>
                 </>
               ) : (
-                <button className="toolbar-button toolbar-button--join" type="button" onClick={() => setJoinPromptVisible((visible) => !visible)}>
-                  <span>Enter code</span>
+                <button
+                  className="toolbar-button toolbar-button--join"
+                  type="button"
+                  aria-expanded={joinPromptVisible}
+                  onClick={() => setJoinPromptVisible((visible) => !visible)}
+                  title="Enter a session code to reconnect or join a different lesson"
+                >
+                  <span>{connectionStatus === "connected" ? "Change code" : "Reconnect"}</span>
                 </button>
               )}
             </div>
@@ -3829,6 +4019,7 @@ export default function TutoringBoard() {
                       >
                         {editingTextId === textBox.id ? (
                           <textarea
+                            ref={textEditorRef}
                             value={textBox.text}
                             onChange={(event) => updateTextBox(textBox.id, event.target.value)}
                             onBlur={() => finishTextEditing(textBox.id)}
@@ -3871,6 +4062,7 @@ export default function TutoringBoard() {
                       onPointerUp={handlePointerUp}
                       onPointerCancel={handlePointerUp}
                       onPointerLeave={handlePointerLeave}
+                      onClick={handleTextPlacement}
                       aria-label={`Annotation layer for page ${page.page}`}
                     >
                       {pageAnnotations.map((annotation) => (
@@ -4041,9 +4233,9 @@ export default function TutoringBoard() {
                     <h2 id="aqa-periodic-table-title">Periodic table &amp; data booklet</h2>
                   </div>
                   <div className="reference-viewer__actions">
-                    <a
+                  <a
                       className="toolbar-button"
-                      href="https://mmerevise.co.uk/app/uploads/2022/10/AQA-A-Level-Chemistry-Insert.pdf"
+                      href="/aqa-a-level-chemistry-insert.pdf"
                       target="_blank"
                       rel="noreferrer"
                     >
@@ -4061,7 +4253,7 @@ export default function TutoringBoard() {
                 </header>
                 <iframe
                   title="AQA A-level Chemistry insert, periodic table on page 2"
-                  src="https://mmerevise.co.uk/app/uploads/2022/10/AQA-A-Level-Chemistry-Insert.pdf#page=2"
+                  src="/aqa-a-level-chemistry-insert.pdf#page=2"
                 />
               </section>
             </div>
