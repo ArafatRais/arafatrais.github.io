@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Local-only revision tool: plain Node + browser JS, not part of the site.
+    "revise/**",
   ]),
 ]);
 

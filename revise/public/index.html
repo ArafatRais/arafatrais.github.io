@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Revise</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <main id="app"></main>
+    <footer id="hints">
+      <span><kbd>j</kbd><kbd>k</kbd> move</span>
+      <span><kbd>Space</kbd> open/close</span>
+      <span><kbd>t</kbd> study timer</span>
+      <span><kbd>1</kbd>–<kbd>4</kbd> grade</span>
+      <span><kbd>n</kbd> next due</span>
+      <span><kbd>?</kbd> all keys</span>
+    </footer>
+    <div id="toast" role="status"></div>
+    <div id="help" hidden>
+      <div class="help-card">
+        <h2>Keyboard</h2>
+        <dl>
+          <dt><kbd>j</kbd> <kbd>↓</kbd> / <kbd>k</kbd> <kbd>↑</kbd></dt><dd>Next / previous toggle</dd>
+          <dt><kbd>Space</kbd> <kbd>Enter</kbd></dt><dd>Open or close the toggle</dd>
+          <dt><kbd>→</kbd> <kbd>l</kbd></dt><dd>Open, or step into the first nested toggle</dd>
+          <dt><kbd>←</kbd> <kbd>h</kbd></dt><dd>Close, or step out to the parent toggle</dd>
+          <dt><kbd>t</kbd></dt><dd>Study timer: open, count down 30s, then close so you can recall it</dd>
+          <dt><kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd> <kbd>4</kbd></dt><dd>Again / Hard / Good / Easy. Schedules it and closes it</dd>
+          <dt><kbd>0</kbd></dt><dd>Stop tracking this toggle</dd>
+          <dt><kbd>n</kbd> / <kbd>p</kbd></dt><dd>Jump to next / previous due toggle</dd>
+          <dt><kbd>e</kbd> / <kbd>z</kbd></dt><dd>Expand all / collapse all</dd>
+          <dt><kbd>Shift</kbd>+<kbd>R</kbd></dt><dd>Re-read the page from Notion</dd>
+          <dt><kbd>g</kbd></dt><dd>Back to all pages</dd>
+          <dt><kbd>?</kbd></dt><dd>This panel</dd>
+        </dl>
+      </div>
+    </div>
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>
