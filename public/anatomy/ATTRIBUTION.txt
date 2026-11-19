@@ -1,0 +1,4 @@
+These meshes are simplified from BodyParts3D, (c) The Database Center for Life Science,
+licensed under Creative Commons Attribution-Share Alike 2.1 Japan.
+https://dbarchive.biosciencedbc.jp/en/bodyparts3d/lic.html
+The simplified meshes are shared under the same licence.

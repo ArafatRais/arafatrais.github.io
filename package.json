@@ -15,6 +15,7 @@
     "pdfjs-dist": "^6.3.289",
     "react": "19.2.8",
     "react-dom": "19.2.8",
+    "three": "^0.187.0",
     "y-webrtc": "^10.3.0",
     "yjs": "^13.6.32"
   },
@@ -23,6 +24,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/three": "^0.187.0",
     "eslint": "^9",
     "eslint-config-next": "16.3.5",
     "tailwindcss": "^4",
